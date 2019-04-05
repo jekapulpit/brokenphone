@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f0afb45-d7b9-4876-ad7f-7aaf02e0ea76" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/javascript/components/rooms/ActiveRoom.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/javascript/components/rooms/Menu.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/brokenphone.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/brokenphone.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/components/pages/MainPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/components/pages/MainPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/components/rooms/Concact.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/components/rooms/Concact.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/components/rooms/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/javascript/components/rooms/Message.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/components/rooms/Room.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/javascript/components/rooms/RoomsList.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/views/home/show.html.erb" beforeDir="false" afterPath="$PROJECT_DIR$/app/views/home/show.html.erb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/environments/development.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/environments/development.rb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../knowledge-tracker/.idea/knowledge-tracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../knowledge-tracker/.idea/knowledge-tracker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../knowledge-tracker/config/application.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../knowledge-tracker/logfile" beforeDir="false" afterPath="$PROJECT_DIR$/../knowledge-tracker/logfile" afterDir="false" />
@@ -65,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/app/javascript/components/rooms/ActiveRoom.jsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
-              <caret line="21" column="18" lean-forward="true" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+              <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -73,11 +67,29 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/api/v4/rooms_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="138">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config/environments/development.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="613">
+              <caret line="64" column="48" lean-forward="true" selection-start-line="64" selection-start-column="48" selection-end-line="64" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/javascript/components/rooms/Message.jsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="161">
-              <caret line="7" column="14" lean-forward="true" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+              <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -125,8 +137,10 @@
         <option value="$PROJECT_DIR$/app/javascript/components/rooms/Menu.jsx" />
         <option value="$PROJECT_DIR$/app/javascript/components/rooms/Room.jsx" />
         <option value="$PROJECT_DIR$/app/javascript/components/rooms/RoomsList.jsx" />
-        <option value="$PROJECT_DIR$/app/javascript/components/rooms/ActiveRoom.jsx" />
         <option value="$PROJECT_DIR$/app/javascript/components/rooms/Message.jsx" />
+        <option value="$PROJECT_DIR$/app/javascript/components/rooms/ActiveRoom.jsx" />
+        <option value="$PROJECT_DIR$/app/controllers/api/v4/rooms_controller.rb" />
+        <option value="$PROJECT_DIR$/config/environments/development.rb" />
       </list>
     </option>
   </component>
@@ -156,41 +170,28 @@
             <path>
               <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
               <item name="brokenphone" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
               <item name="brokenphone" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
-              <item name="brokenphone" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="stylesheets" type="462c0819:PsiDirectoryNode" />
+              <item name="knowledge-tracker" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
-              <item name="brokenphone" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
+              <item name="knowledge-tracker" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
-              <item name="brokenphone" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
-              <item name="brokenphone" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="javascript" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="rooms" type="462c0819:PsiDirectoryNode" />
+              <item name="knowledge-tracker" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -208,6 +209,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/controllers/api/v4" />
       <recent name="$PROJECT_DIR$/vendor" />
       <recent name="$PROJECT_DIR$/lib/assets" />
     </key>
@@ -343,12 +345,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1554465746821</updated>
-      <workItem from="1554465748047" duration="6502000" />
+      <workItem from="1554465748047" duration="7552000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6502000" />
+    <option name="totallyTimeSpent" value="7552000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1920" height="977" extended-state="6" />
@@ -600,23 +602,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/javascript/components/rooms/ActiveRoom.jsx">
+    <entry file="file://$PROJECT_DIR$/app/javascript/components/rooms/Message.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="21" column="18" lean-forward="true" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
+        <state relative-caret-position="161">
+          <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/javascript/components/rooms/Message.jsx">
+    <entry file="file://$PROJECT_DIR$/app/javascript/components/rooms/ActiveRoom.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="7" column="14" lean-forward="true" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+        <state relative-caret-position="330">
+          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../knowledge-tracker/config/environment.rb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../knowledge-tracker/config/application.rb">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../knowledge-tracker/config/environments/development.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="730">
+          <caret line="61" column="5" lean-forward="true" selection-start-line="61" selection-start-column="5" selection-end-line="61" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/api/v4/rooms_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/environments/development.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="613">
+          <caret line="64" column="48" lean-forward="true" selection-start-line="64" selection-start-column="48" selection-end-line="64" selection-end-column="48" />
         </state>
       </provider>
     </entry>
