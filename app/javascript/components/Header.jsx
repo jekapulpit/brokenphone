@@ -1,12 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-class Header extends React.Component {
-  render () {
+const Header = props => {
     return (
-      <React.Fragment>
-      </React.Fragment>
+        <div className="header">
+          dsfdsfsdf
+        </div>
     );
-  }
 }
 
 export default Header

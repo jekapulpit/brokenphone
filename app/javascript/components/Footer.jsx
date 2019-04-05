@@ -1,12 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
-class Footer extends React.Component {
-  render () {
+const Footer = props => {
     return (
-      <React.Fragment>
-      </React.Fragment>
+      <div className="footer">
+        sdfsdf
+      </div>
     );
-  }
 }
 
 export default Footer
