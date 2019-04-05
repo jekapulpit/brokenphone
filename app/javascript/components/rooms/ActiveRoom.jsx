@@ -6,21 +6,25 @@ class ActiveRoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      messages: [],
+      users: []
     };
   }
 
   componentDidMount(){
-    fetch('/api/v4/technologies')
+    fetch(`/api/v4/rooms/${this.props.room.id}`)
         .then((response) => {return response.json()})
         .then((data) => {this.setState({
-          technologies: data.technologies,
-          totalPages: data.totalPages,
-          loading: false })
+            messages: data.messages,
+            users: data.users
+          })
         });
   }
 
   render () {
+    let messages = this.state.messages.map((message) => {
+      return(<Message key={message.id} fromMe={message.sender_id == this.props.userId} text={message.content} />)
+    });
     return (
         <div className="talk talk-active">
           <div className="message-box">
@@ -34,8 +38,7 @@ class ActiveRoom extends React.Component {
               </div>
             </div>
             <div className="messages">
-              <Message fromMe={false} text={"provet"} />
-              <Message fromMe={true} text={"poka"}/>
+              {messages}
             </div>
             <div className="send-box">
               <div className="image" style={{ backgroundImage: "url(" + this.props.avatar + ")" }} />

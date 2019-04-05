@@ -7,14 +7,17 @@ import ActiveRoom from "../rooms/ActiveRoom";
 class MainPage extends React.Component {
 
   constructor(props) {
-      super(props)
+      super(props);
+      this.state = {
+          room: props.room
+      };
   }
 
   render () {
     return (
         <div className="content">
             <Menu dia1={this.props.dia1} avatar={this.props.avatar}/>
-            <ActiveRoom dia1={this.props.dia1} avatar={this.props.avatar} />
+            <ActiveRoom userId={this.props.userId} room={this.state.room} dia1={this.props.dia1} avatar={this.props.avatar} />
         </div>
     );
   }

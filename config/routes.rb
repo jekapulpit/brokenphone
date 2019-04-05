@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v4 do
-      resources :messages, only: %i[index create]
+      resources :rooms, only: %i[show index]
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
