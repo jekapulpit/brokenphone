@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f0afb45-d7b9-4876-ad7f-7aaf02e0ea76" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.scss" beforeDir="false" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../knowledge-tracker/.idea/knowledge-tracker.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../knowledge-tracker/.idea/knowledge-tracker.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../knowledge-tracker/config/application.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../knowledge-tracker/logfile" beforeDir="false" afterPath="$PROJECT_DIR$/../knowledge-tracker/logfile" afterDir="false" />
@@ -107,6 +106,11 @@
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="stylesheets" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="brokenphone" type="b2602c69:ProjectViewProjectNode" />
+              <item name="knowledge-tracker" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -129,6 +133,13 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/config" />
     </key>
+  </component>
+  <component name="RubyModuleManagerSettings">
+    <option name="blackListedRootsPaths">
+      <list>
+        <option value="$PROJECT_DIR$/../knowledge-tracker" />
+      </list>
+    </option>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -247,16 +258,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1554465746821</updated>
-      <workItem from="1554465748047" duration="1614000" />
+      <workItem from="1554465748047" duration="1910000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1614000" />
+    <option name="totallyTimeSpent" value="1910000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1920" height="977" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24973376" />
@@ -347,6 +357,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
           <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../knowledge-tracker/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="19" column="5" lean-forward="true" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
         </state>
       </provider>
     </entry>
