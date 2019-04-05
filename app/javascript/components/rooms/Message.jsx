@@ -1,12 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
-class Message extends React.Component {
-  render () {
+const Message = props => {
+
     return (
-      <React.Fragment>
-      </React.Fragment>
+        <div className={props.fromMe ? "self-message" : "partner-message"}>
+          <div className="message">{props.text}</div>
+        </div>
     );
-  }
-}
+
+};
 
 export default Message

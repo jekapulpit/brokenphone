@@ -1,12 +1,18 @@
-import React from "react"
+import React from "react";
 import PropTypes from "prop-types"
-class Room extends React.Component {
-  render () {
+
+const Room = props => {
     return (
-      <React.Fragment>
-      </React.Fragment>
+        <div className="content_dialog">
+            <div className="dialog">
+                <img className="image" src={props.dia1} />
+                <div className="right">
+                    <div className="name">Anna Wrote</div>
+                    <div className="message">Lorem ipsum dolor.</div>
+                </div>
+            </div>
+        </div>
     );
-  }
-}
+};
 
 export default Room
