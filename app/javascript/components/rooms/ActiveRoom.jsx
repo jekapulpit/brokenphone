@@ -4,7 +4,20 @@ import Message from "./Message";
 class ActiveRoom extends React.Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  componentDidMount(){
+    fetch('/api/v4/technologies')
+        .then((response) => {return response.json()})
+        .then((data) => {this.setState({
+          technologies: data.technologies,
+          totalPages: data.totalPages,
+          loading: false })
+        });
   }
 
   render () {
