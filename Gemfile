@@ -10,6 +10,7 @@ gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 gem 'figaro'
+gem 'jquery-rails'
 gem 'webpacker'
 gem 'react-rails'
 # Use SCSS for stylesheets
