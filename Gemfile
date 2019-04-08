@@ -15,16 +15,19 @@ gem 'webpacker'
 gem 'react-rails'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+gem 'sidekiq'
 gem 'bootstrap', '~> 4.3.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 gem 'devise'
+gem 'devise-async'
 gem 'pundit'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'redis'
 # Use Redis adapter to run Action Cable in production
+gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
