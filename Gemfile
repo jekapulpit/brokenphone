@@ -23,6 +23,7 @@ gem 'pundit'
 gem 'elasticsearch'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+gem 'redis'
 # Use Redis adapter to run Action Cable in production
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
