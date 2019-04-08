@@ -4,6 +4,7 @@ import Header from "../Header";
 import Footer from "../Footer";
 import Menu from "../rooms/Menu";
 import ActiveRoom from "../rooms/ActiveRoom";
+
 class MainPage extends React.Component {
 
   constructor(props) {
@@ -14,28 +15,8 @@ class MainPage extends React.Component {
   }
 
   componentDidMount() {
-      App.rooms = App.cable.subscriptions.create("RoomsChannel", {
-          connected: function() {
-              console.log('alo');
-          },
 
-          disconnected: function() {
-              // Called when the subscription has been terminated by the server
-          },
-
-          received: function(data) {
-              console.log(data.message);
-          },
-
-          send_message: function (data) {
-              return this.perform('send_message', data)
-          }
-      });
-      App.rooms.send_message({message: 'dasdadad'})
-  }
-
-  sendMessage(message) {
-
+      App.rooms.send_message('fdsfsf')
   }
 
     render () {
