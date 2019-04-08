@@ -1,18 +1,13 @@
 class RoomsChannel < ApplicationCable::Channel
   def subscribed
-    @line = Room.first
-    stream_for @line
+    stream_from 'rooms_channel'
   end
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def received(data)
-    RoomsChannel.broadcast_to(@line, data)
-  end
-
   def send_message(data)
-    RoomsChannel.broadcast_to(@line, data)
+    ActionCable.server.broadcast 'rooms_channel', data['message']
   end
 end
