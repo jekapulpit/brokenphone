@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v4 do
       resources :rooms, only: %i[show index]
+      resources :messages
     end
   end
 
