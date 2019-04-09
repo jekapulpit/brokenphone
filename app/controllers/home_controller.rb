@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def show
-    @room = Room.first
+    @rooms = current_user.rooms
   end
 end

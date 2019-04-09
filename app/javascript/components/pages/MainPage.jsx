@@ -10,18 +10,27 @@ class MainPage extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          room: props.room
+          activeRoom: props.rooms[0]
       };
+      this.handleRoom = this.handleRoom.bind(this)
   }
 
+  handleRoom = (roomId) => {
+      fetch(`/api/v4/rooms/${roomId}`)
+          .then((response) => {return response.json()})
+          .then((data) => {this.setState({
+              activeRoom: data.room
+          })
+       });
+  };
 
     render () {
     return (
         <div className="content">
-            <Menu dia1={this.props.dia1} avatar={this.props.avatar}/>
+            <Menu handleRoom={this.handleRoom} rooms={this.props.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
             <ActiveRoom
                         userId={this.props.userId}
-                        room={this.state.room}
+                        room={this.state.activeRoom}
                         dia1={this.props.dia1}
                         avatar={this.props.avatar} />
         </div>

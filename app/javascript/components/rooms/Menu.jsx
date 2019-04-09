@@ -13,7 +13,7 @@ class Menu extends React.Component {
         <div className="menu">
           <Concact avatar={this.props.avatar} />
           <h5>Свежие чаты:</h5>
-          <RoomsList dia1={this.props.dia1}/>
+          <RoomsList handleRoom={this.props.handleRoom} rooms={this.props.rooms} dia1={this.props.dia1}/>
         </div>
     );
   }

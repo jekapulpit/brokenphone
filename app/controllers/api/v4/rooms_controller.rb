@@ -1,7 +1,7 @@
 class Api::V4::RoomsController < ApplicationController
   def show
     room = Room.includes(:messages, :users).find(params[:id])
-    render json: {messages: room.messages, users: room.users}
+    render json: {room: room, messages: room.messages, users: room.users}
   end
 
   def index
