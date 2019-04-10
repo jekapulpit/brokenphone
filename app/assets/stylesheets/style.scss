@@ -87,11 +87,11 @@ body,html {
 .content .menu .dialogs {
 	width: 100%;
 	display: flex;
+    flex-direction: column;
 	height: 75%;
 }
 .content .menu .dialogs .content_dialog {
 	width: 100%;
-	height: 100%;
 	overflow-y: scroll;
 }
 .content .menu .dialogs .content_dialog .dialog {

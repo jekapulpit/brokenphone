@@ -69,10 +69,12 @@ class MainPage extends React.Component {
   };
 
   updateMessages = (data) => {
-    this.setState({
-        messages: this.state.messages.concat(data.message)
-    });
-    this.basicScroll()
+    if(this.state.activeRoom.id === data.message.recipient_id){
+        this.setState({
+            messages: this.state.messages.concat(data.message)
+        });
+        this.basicScroll()
+    }
   };
 
   sendMessage = (message) => {

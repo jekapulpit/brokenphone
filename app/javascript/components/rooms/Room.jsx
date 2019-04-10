@@ -7,8 +7,8 @@ const Room = props => {
             <div className="dialog">
                 <img className="image" src={props.dia1} />
                 <div className="right">
-                    <div className="name">Anna Wrote</div>
-                    <div className="message">Lorem ipsum dolor.</div>
+                    <div className="name">{props.room.name}</div>
+                    <div className="message">{props.room.id}</div>
                 </div>
             </div>
         </div>
