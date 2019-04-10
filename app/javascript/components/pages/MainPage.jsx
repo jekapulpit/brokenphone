@@ -10,6 +10,7 @@ class MainPage extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
+          rooms: props.rooms,
           activeRoom: props.rooms[0],
           messages: [],
           users: []
@@ -52,6 +53,7 @@ class MainPage extends React.Component {
   handleSend = (message) => {
     let body = JSON.stringify({
         recipient_id: this.state.activeRoom.id,
+        recipient_type: "Room",
         content: message,
         sender_id: this.props.userId
       });
@@ -69,6 +71,18 @@ class MainPage extends React.Component {
   };
 
   updateMessages = (data) => {
+    let newRoomsState = this.state.rooms.map((room) => {
+        if(room.id === data.message.recipient_id) {
+            room.last_message = data.message;
+            return room;
+        }
+        else return room;
+    });
+
+    this.setState({
+        rooms: newRoomsState
+    });
+
     if(this.state.activeRoom.id === data.message.recipient_id){
         this.setState({
             messages: this.state.messages.concat(data.message)
@@ -101,7 +115,7 @@ class MainPage extends React.Component {
     render () {
     return (
         <div className="content">
-            <Menu handleRoom={this.handleRoom} rooms={this.props.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
+            <Menu handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
             <ActiveRoom handleSend={this.handleSend}
                         userId={this.props.userId}
                         messages={this.state.messages}

@@ -8,7 +8,7 @@ const Room = props => {
                 <img className="image" src={props.dia1} />
                 <div className="right">
                     <div className="name">{props.room.name}</div>
-                    <div className="message">{props.room.id}</div>
+                    <div className="message">{props.room.last_message.content}</div>
                 </div>
             </div>
         </div>
