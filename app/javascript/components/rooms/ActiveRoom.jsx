@@ -5,27 +5,9 @@ class ActiveRoom extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      messages: [],
-      users: []
-    };
-  }
-
-  scrollToBottom() {
-    const {thing} = this.refs;
-    thing.scrollTop = thing.scrollHeight - thing.clientHeight;
   }
 
   componentDidMount(){
-    fetch(`/api/v4/rooms/${this.props.room.id}`)
-        .then((response) => {return response.json()})
-        .then((data) => {this.setState({
-            messages: data.messages,
-            users: data.users
-          })
-        });
-    let recv = this.handleReceive.bind(this);
-    this.subscribe(recv);
     setTimeout(this.basicScroll, 500)
   }
 
@@ -34,58 +16,15 @@ class ActiveRoom extends React.Component {
     objDiv.scrollTop = 9999;
   };
 
-  subscribe = (recv) => {
-    App.rooms = App.cable.subscriptions.create("RoomsChannel", {
-      connected: function() {
-      },
 
-      disconnected: function() {
-        // Called when the subscription has been terminated by the server
-      },
-
-      received: recv,
-
-      send_message: function (data) {
-        return this.perform('send_message', data)
-      }
-    });
-  };
-
-  handleReceive = (data) => {
-    this.setState({
-      messages: this.state.messages.concat(data.message)
-    });
+  handleSend = (data) => {
     this.content.value = '';
     this.content.focus();
-    this.scrollToBottom()
+    this.props.handleSend(data);
   };
-
-  sendMessage = (message) => {
-    App.rooms.send_message({message: message});
-  };
-
-  handleSend = (message) => {
-    let body = JSON.stringify({
-      recipient_id: this.props.room.id,
-      content: message,
-      sender_id: this.props.userId
-    });
-    fetch('http://localhost:3000/api/v4/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
-    }).then((response) => {return response.json()})
-        .then((data)=>{
-          if(data.valid)
-            this.sendMessage(data.message)
-        })
-  };
-
 
   render () {
-    let messages = this.state.messages.map((message) => {
+    let messages = this.props.messages.map((message) => {
       return(<Message key={message.id} fromMe={message.sender_id !== this.props.userId} text={message.content} />)
     });
     return (
