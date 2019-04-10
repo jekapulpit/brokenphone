@@ -9,7 +9,7 @@ class RoomsList extends React.Component {
 
   render () {
     let rooms = this.props.rooms.map((room) => {
-       return (  <Room room={room} handleRoom={this.props.handleRoom} key={room.id} dia1={this.props.dia1} />  )
+       return (  <Room active={this.props.activeId === room.id} room={room} handleRoom={this.props.handleRoom} key={room.id} dia1={this.props.dia1} />  )
     });
     return (
         <div className="dialogs">

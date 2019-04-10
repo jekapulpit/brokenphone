@@ -105,6 +105,10 @@ body,html {
 	cursor: pointer;
 	overflow: hidden;
 	display: flex;
+  
+  &.active {
+    background-color: #65BCFC;
+  }
 }
 .content .menu .dialogs .content_dialog .dialog .image {
 	width: 50px;
