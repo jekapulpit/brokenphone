@@ -1,0 +1,63 @@
+version: '3.0'
+services:
+  db:
+    image: postgres:10
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_USER_PASSWORD}
+
+  redis:
+    image: redis
+    volumes:
+      - ./tmp/redis:/data
+    ports:
+      - 6379:6379
+
+  sidekiq:
+    build: .
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    links:
+      - db
+      - redis
+    command: bundle exec sidekiq
+
+  webpacker:
+    image: ${DOCKER_IMAGE_NAME-dockerrailsdemo}
+    command: ["./scripts/start_webpack_dev.sh"]
+    volumes:
+      - .:/opt/dockerrailsdemo:cached
+    ports:
+      - 3035:3035
+
+  cable:
+    depends_on:
+      - 'redis'
+    build: .
+    command: puma -p 28080 cable/config.ru
+    ports:
+      - '28080:28080'
+    volumes:
+      - '.:/app'
+    env_file:
+      - '.env'
+
+  web:
+    image: ${DOCKER_IMAGE_NAME-dockerrailsdemo}
+    build:
+      context: .
+      args:
+        precompileassets: 'not'
+    links:
+      - db
+      - webpacker
+    ports:
+      - 3000:3000
+    command: ["./scripts/wait-for-it.sh", "db:5432", "--", "./scripts/start_rails.sh"]
+    volumes:
+      - .:/opt/dockerrailsdemo:cached
