@@ -57,7 +57,7 @@ class MainPage extends React.Component {
         content: message,
         sender_id: this.props.userId
       });
-    fetch('http://localhost:3000/api/v4/messages', {
+    fetch('/api/v4/messages', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
