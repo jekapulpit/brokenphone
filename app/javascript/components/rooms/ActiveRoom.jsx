@@ -20,7 +20,8 @@ class ActiveRoom extends React.Component {
   handleSend = (data) => {
     this.content.value = '';
     this.content.focus();
-    this.props.handleSend(data);
+    if (data.replace(/^\s+|\s+$/g, ''))
+      this.props.handleSend(data);
   };
 
   render () {
