@@ -112,10 +112,10 @@ class MainPage extends React.Component {
       });
   };
 
-    render () {
+  render () {
     return (
         <div className="content">
-            <Menu activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
+            <Menu user={this.props.user} activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
             <ActiveRoom handleSend={this.handleSend}
                         userId={this.props.userId}
                         messages={this.state.messages}

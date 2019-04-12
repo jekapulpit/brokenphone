@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import Concact from "./Concact";
+import Profile from "./Profile";
 import RoomsList from "./RoomsList";
 class Menu extends React.Component {
 
@@ -11,7 +11,7 @@ class Menu extends React.Component {
   render () {
     return (
         <div className="menu">
-          <Concact avatar={this.props.avatar} />
+          <Profile user={this.props.user} avatar={this.props.avatar} />
           <h5>Свежие чаты:</h5>
           <RoomsList activeId={this.props.activeId} handleRoom={this.props.handleRoom} rooms={this.props.rooms} dia1={this.props.dia1}/>
         </div>
