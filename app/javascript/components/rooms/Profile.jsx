@@ -5,7 +5,7 @@ const Profile = props => {
         <div className="self">
           <img className="image" id="profile-image" src={props.avatar} />
           <div className="name">{props.user.email}</div>
-          <div className="exit" />
+          <a href="/users/sign_out" data-method="delete" className="exit" />
         </div>
     );
 };

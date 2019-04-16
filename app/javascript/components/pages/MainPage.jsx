@@ -11,6 +11,7 @@ class MainPage extends React.Component {
       super(props);
       this.state = {
           rooms: props.rooms,
+          newRoom: false,
           activeRoom: props.rooms[0],
           messages: [],
           users: []
@@ -115,7 +116,7 @@ class MainPage extends React.Component {
   render () {
     return (
         <div className="content">
-            <Menu user={this.props.user} activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
+            <Menu newRoom={this.state.newRoom} user={this.props.user} activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
             <ActiveRoom handleSend={this.handleSend}
                         userId={this.props.userId}
                         messages={this.state.messages}
