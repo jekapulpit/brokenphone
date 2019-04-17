@@ -16,9 +16,10 @@ class MainPage extends React.Component {
           messages: [],
           users: []
       };
-      this.handleRoom = this.handleRoom.bind(this)
-      this.handleSend = this.handleSend.bind(this)
-      this.basicScroll = this.basicScroll.bind(this)
+      this.handleRoom = this.handleRoom.bind(this);
+      this.handleSend = this.handleSend.bind(this);
+      this.basicScroll = this.basicScroll.bind(this);
+      this.handleNew = this.handleNew.bind(this)
   }
 
   componentDidMount(){
@@ -32,6 +33,12 @@ class MainPage extends React.Component {
     let recv = this.updateMessages.bind(this);
     this.subscribe(recv);
   }
+
+  handleNew = () => {
+      this.setState({
+          newRoom: !this.state.newRoom
+      })
+  };
 
   subscribe = (recv) => {
     App.rooms = App.cable.subscriptions.create("RoomsChannel", {
@@ -116,7 +123,7 @@ class MainPage extends React.Component {
   render () {
     return (
         <div className="content">
-            <Menu newRoom={this.state.newRoom} user={this.props.user} activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
+            <Menu handleNew={this.handleNew} newRoom={this.state.newRoom} user={this.props.user} activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
             <ActiveRoom handleSend={this.handleSend}
                         userId={this.props.userId}
                         messages={this.state.messages}
