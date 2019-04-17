@@ -5,9 +5,16 @@ import RoomsList from "./RoomsList";
 const Menu = props => {
     return (
         <div className="menu">
-          <Profile user={props.user} avatar={props.avatar} />
+          <Profile user={props.user}
+                   avatar={props.avatar} />
           <h5>Свежие чаты:</h5>
-          <RoomsList handleNew={props.handleNew} newRoom={props.newRoom} activeId={props.activeId} handleRoom={props.handleRoom} rooms={props.rooms} dia1={props.dia1}/>
+          <RoomsList handleCreateRoom={props.handleCreateRoom}
+                     handleNew={props.handleNew}
+                     newRoom={props.newRoom}
+                     activeId={props.activeId}
+                     handleRoom={props.handleRoom}
+                     rooms={props.rooms}
+                     dia1={props.dia1}/>
         </div>
     );
 };

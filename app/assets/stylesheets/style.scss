@@ -88,14 +88,18 @@ body,html {
 	width: 100%;
 	display: flex;
     flex-direction: column;
-	height: 75%;
+  overflow-y: scroll;
+  height: 75%;
 }
 .content .menu .dialogs .content_dialog {
 	width: 100%;
-	overflow-y: scroll;
+    height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .content .menu .dialogs .content_dialog .dialog {
-	width: 280px;
+	width: 260px;
 	min-height: 60px;
 	max-height: 60px;
 	background-color: #f6f6f6;
@@ -103,7 +107,6 @@ body,html {
 	border: 1px solid #002742;
 	margin: 10px;
 	cursor: pointer;
-	overflow: hidden;
 	display: flex;
   
   &.active {

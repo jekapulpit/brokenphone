@@ -19,7 +19,8 @@ class MainPage extends React.Component {
       this.handleRoom = this.handleRoom.bind(this);
       this.handleSend = this.handleSend.bind(this);
       this.basicScroll = this.basicScroll.bind(this);
-      this.handleNew = this.handleNew.bind(this)
+      this.handleNew = this.handleNew.bind(this);
+      this.handleCreateRoom = this.handleCreateRoom.bind(this)
   }
 
   componentDidMount(){
@@ -36,8 +37,30 @@ class MainPage extends React.Component {
 
   handleNew = () => {
       this.setState({
-          newRoom: !this.state.newRoom
+          newRoom: true
       })
+  };
+
+  handleCreateRoom = (newRoomsName) => {
+      let body = JSON.stringify({ room: { name: newRoomsName } });
+      fetch('/api/v4/rooms', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: body,
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              if(data.valid)
+                  this.addNewRoom(data.room)
+          })
+  };
+
+  addNewRoom = (room) => {
+      this.setState({
+          newRoom: false,
+          rooms: this.state.rooms.concat(room)
+      });
   };
 
   subscribe = (recv) => {
@@ -123,7 +146,15 @@ class MainPage extends React.Component {
   render () {
     return (
         <div className="content">
-            <Menu handleNew={this.handleNew} newRoom={this.state.newRoom} user={this.props.user} activeId={this.state.activeRoom.id} handleRoom={this.handleRoom} rooms={this.state.rooms} dia1={this.props.dia1} avatar={this.props.avatar}/>
+            <Menu handleCreateRoom={this.handleCreateRoom}
+                  handleNew={this.handleNew}
+                  newRoom={this.state.newRoom}
+                  user={this.props.user}
+                  activeId={this.state.activeRoom.id}
+                  handleRoom={this.handleRoom}
+                  rooms={this.state.rooms}
+                  dia1={this.props.dia1}
+                  avatar={this.props.avatar}/>
             <ActiveRoom handleSend={this.handleSend}
                         userId={this.props.userId}
                         messages={this.state.messages}
