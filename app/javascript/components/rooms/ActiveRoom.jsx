@@ -26,7 +26,7 @@ class ActiveRoom extends React.Component {
 
   render () {
     let messages = this.props.messages.map((message) => {
-      return(<Message key={message.id} fromMe={message.sender_id !== this.props.userId} text={message.content} />)
+      return(<Message sender={message.senders_name} key={message.id} fromMe={message.sender_id !== this.props.userId} sended={message.created_at} text={message.content} />)
     });
     return (
         <div className="talk talk-active">

@@ -4,9 +4,10 @@ class Api::V4::MessagesController < ApplicationController
   def create
     message = Message.new(message_params)
     message.recipient = Room.find(params[:recipient_id])
+    message.sender = current_user
     render json: {
         valid: message.save,
-        message: message
+        message: message.with_senders_name
     }
   end
 

@@ -158,6 +158,7 @@ class MainPage extends React.Component {
             <ActiveRoom handleSend={this.handleSend}
                         userId={this.props.userId}
                         messages={this.state.messages}
+                        user={this.props.user}
                         room={this.state.activeRoom}
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}
