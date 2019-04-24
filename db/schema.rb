@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_154650) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "key"
+    t.string "secret_key"
   end
 
   create_table "users", force: :cascade do |t|
