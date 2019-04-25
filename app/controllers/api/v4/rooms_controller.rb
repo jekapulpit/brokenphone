@@ -14,6 +14,7 @@ class Api::V4::RoomsController < ApplicationController
   def create
     room = Room.new
     room.attributes = room_params
+    room.users << current_user
     render json: { room: room, valid: room.save }
   end
 

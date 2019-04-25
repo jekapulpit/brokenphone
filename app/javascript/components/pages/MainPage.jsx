@@ -181,6 +181,7 @@ class MainPage extends React.Component {
                         userId={this.props.userId}
                         messages={this.state.messages}
                         user={this.props.user}
+                        allUsers={this.state.users}
                         room={this.state.activeRoom}
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}
