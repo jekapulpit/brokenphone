@@ -17,6 +17,11 @@ class Api::V4::RoomsController < ApplicationController
     render json: { room: room, valid: room.save }
   end
 
+  def destroy
+    room = Room.find(params[:id])
+    render json: { destroyed: room.destroy }
+  end
+
   private
 
   def room_params

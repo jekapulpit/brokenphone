@@ -20,7 +20,8 @@ class MainPage extends React.Component {
       this.handleSend = this.handleSend.bind(this);
       this.basicScroll = this.basicScroll.bind(this);
       this.handleNew = this.handleNew.bind(this);
-      this.handleCreateRoom = this.handleCreateRoom.bind(this)
+      this.handleCreateRoom = this.handleCreateRoom.bind(this);
+      this.handleDeleteRoom = this.handleDeleteRoom.bind(this)
   }
 
   componentDidMount(){
@@ -54,6 +55,26 @@ class MainPage extends React.Component {
               if(data.valid)
                   this.addNewRoom(data.room)
           })
+  };
+
+  handleDeleteRoom = (roomId) => {
+    fetch(`/api/v4/rooms/${roomId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {return response.json()})
+      .then((data)=>{
+        this.deleteRoom(roomId);
+    });
+  };
+
+  deleteRoom = (roomId) => {
+      let newRooms = this.state.rooms.filter((room) => room.id !== roomId);
+      this.setState({
+          rooms: newRooms,
+      });
+      this.handleRoom(newRooms[0].id)
   };
 
   addNewRoom = (room) => {
@@ -156,6 +177,7 @@ class MainPage extends React.Component {
                   dia1={this.props.dia1}
                   avatar={this.props.avatar}/>
             <ActiveRoom handleSend={this.handleSend}
+                        handleDeleteRoom={this.handleDeleteRoom}
                         userId={this.props.userId}
                         messages={this.state.messages}
                         user={this.props.user}
