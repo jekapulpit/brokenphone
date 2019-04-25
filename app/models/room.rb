@@ -9,5 +9,7 @@ class Room < ApplicationRecord
         .merge(last_message: messages.last)
   end
 
-  def invite(user); end
+  def invite(user, message = 'hey! We need to talk!')
+    Invite.create(content: message, room: self, user: user)
+  end
 end

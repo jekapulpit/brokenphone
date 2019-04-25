@@ -8,4 +8,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable
+
+  def invited_to?(room)
+    Invite.find_by(room: room, user: self)
+  end
 end
