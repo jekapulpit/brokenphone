@@ -6,7 +6,10 @@ class Room < ApplicationRecord
 
   def with_last_message
     attributes
-        .merge(last_message: messages.last)
+        .merge({
+                   last_message: messages.last,
+                   type: 'room'
+               })
   end
 
   def invite(user, message = 'hey! We need to talk!')

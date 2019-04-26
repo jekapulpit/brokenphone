@@ -8,4 +8,8 @@ class Invite < ApplicationRecord
       self.update(accepted: true)
     end
   end
+
+  def with_type
+    attributes.merge({ type: 'room' })
+  end
 end

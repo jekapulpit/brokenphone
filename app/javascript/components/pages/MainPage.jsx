@@ -4,6 +4,7 @@ import Header from "../Header";
 import Footer from "../Footer";
 import Menu from "../rooms/Menu";
 import ActiveRoom from "../rooms/ActiveRoom";
+import ActiveInvite from "../rooms/ActiveInvite";
 
 class MainPage extends React.Component {
 
@@ -11,6 +12,7 @@ class MainPage extends React.Component {
       super(props);
       this.state = {
           rooms: props.rooms,
+          invites: props.invites,
           newRoom: false,
           activeRoom: props.rooms[0],
           messages: [],
@@ -21,7 +23,8 @@ class MainPage extends React.Component {
       this.basicScroll = this.basicScroll.bind(this);
       this.handleNew = this.handleNew.bind(this);
       this.handleCreateRoom = this.handleCreateRoom.bind(this);
-      this.handleDeleteRoom = this.handleDeleteRoom.bind(this)
+      this.handleDeleteRoom = this.handleDeleteRoom.bind(this);
+      this.handleInvite = this.handleInvite.bind(this)
   }
 
   componentDidMount(){
@@ -152,6 +155,10 @@ class MainPage extends React.Component {
      objDiv.scrollTop = 9999;
   };
 
+  handleInvite = (inviteId) => {
+     console.log('invite accepted');
+  };
+
   handleRoom = (roomId) => {
     fetch(`/api/v4/rooms/${roomId}`)
       .then((response) => {return response.json()})
@@ -165,18 +172,8 @@ class MainPage extends React.Component {
   };
 
   render () {
-    return (
-        <div className="content">
-            <Menu handleCreateRoom={this.handleCreateRoom}
-                  handleNew={this.handleNew}
-                  newRoom={this.state.newRoom}
-                  user={this.props.user}
-                  activeId={this.state.activeRoom.id}
-                  handleRoom={this.handleRoom}
-                  rooms={this.state.rooms}
-                  dia1={this.props.dia1}
-                  avatar={this.props.avatar}/>
-            <ActiveRoom handleSend={this.handleSend}
+    let activeItem = this.state.activeRoom.type === 'room' ?
+        (<ActiveRoom    handleSend={this.handleSend}
                         handleDeleteRoom={this.handleDeleteRoom}
                         userId={this.props.userId}
                         messages={this.state.messages}
@@ -185,7 +182,24 @@ class MainPage extends React.Component {
                         room={this.state.activeRoom}
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}
-                        scrollToBottom={this.basicScroll}/>
+                        scrollToBottom={this.basicScroll}/>) :
+        (<ActiveInvite  allUsers={this.state.users}
+                        dia1={this.props.dia1}
+                        avatar={this.props.avatar}
+                        handleInvite={this.handleInvite}/>);
+    return (
+        <div className="content">
+            <Menu       handleCreateRoom={this.handleCreateRoom}
+                        handleNew={this.handleNew}
+                        newRoom={this.state.newRoom}
+                        user={this.props.user}
+                        activeId={this.state.activeRoom.id}
+                        handleRoom={this.handleRoom}
+                        rooms={this.state.rooms}
+                        invites={this.state.invites}
+                        dia1={this.props.dia1}
+                        avatar={this.props.avatar}/>
+            {activeItem}
         </div>
     );
   }

@@ -1,7 +1,9 @@
-<%= react_component('pages/MainPage', {avatar: image_url('avatar.jpg'),
-                                       dia1: image_url('dia1.jpg'),
-                                       rooms: @rooms,
-                                       user: current_user,
-                                       userId: current_user.id
-                                       },
+<%= react_component('pages/MainPage', {
+                                        avatar: image_url('avatar.jpg'),
+                                        dia1: image_url('dia1.jpg'),
+                                        rooms: @rooms,
+                                        user: current_user,
+                                        userId: current_user.id,
+                                        invites: @invites
+                                      },
                     class: 'content') %>

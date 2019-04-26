@@ -9,6 +9,7 @@ const Menu = props => {
                    avatar={props.avatar} />
           <h5>Активные чаты:</h5>
           <RoomsList handleCreateRoom={props.handleCreateRoom}
+                     invites={props.invites}
                      handleNew={props.handleNew}
                      newRoom={props.newRoom}
                      activeId={props.activeId}
