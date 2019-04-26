@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v4 do
       resources :rooms, only: %i[show index create destroy]
       resources :messages
+      resources :invites, only: %i[show accept]
     end
   end
 

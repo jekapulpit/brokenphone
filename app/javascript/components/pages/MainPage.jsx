@@ -156,7 +156,14 @@ class MainPage extends React.Component {
   };
 
   handleInvite = (inviteId) => {
-     console.log('invite accepted');
+      fetch(`/api/v4/invites/${inviteId}`)
+          .then((response) => {return response.json()})
+          .then((data) => {this.setState({
+                  activeRoom: data.invite,
+                  messages: [],
+                  users: data.users
+              });
+          });
   };
 
   handleRoom = (roomId) => {
@@ -186,7 +193,7 @@ class MainPage extends React.Component {
         (<ActiveInvite  allUsers={this.state.users}
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}
-                        handleInvite={this.handleInvite}/>);
+                        />);
     return (
         <div className="content">
             <Menu       handleCreateRoom={this.handleCreateRoom}
@@ -194,6 +201,7 @@ class MainPage extends React.Component {
                         newRoom={this.state.newRoom}
                         user={this.props.user}
                         activeId={this.state.activeRoom.id}
+                        handleInvite={this.handleInvite}
                         handleRoom={this.handleRoom}
                         rooms={this.state.rooms}
                         invites={this.state.invites}

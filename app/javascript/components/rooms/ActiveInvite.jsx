@@ -13,7 +13,7 @@ const ActiveInvite = props => {
                 <div>{names}</div>
               </div>
             </div>
-            <div id="m-list" ref={`thing`} className="messages">
+            <div id="m-list" className="messages">
               <button>accept</button>
             </div>
             <div className="send-box" />

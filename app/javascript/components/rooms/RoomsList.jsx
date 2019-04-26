@@ -7,7 +7,7 @@ const RoomsList = props => {
     });
     let invites = props.invites.map((invite) => {
        return (
-           <div className="content_dialog">
+           <div onClick={() => props.handleInvite(invite.id)} key={invite.id} className="content_dialog">
                <div className="dialog">
                    <div className="right">
                        <div className="name">invite</div>
