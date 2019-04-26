@@ -24,7 +24,8 @@ class MainPage extends React.Component {
       this.handleNew = this.handleNew.bind(this);
       this.handleCreateRoom = this.handleCreateRoom.bind(this);
       this.handleDeleteRoom = this.handleDeleteRoom.bind(this);
-      this.handleInvite = this.handleInvite.bind(this)
+      this.handleInvite = this.handleInvite.bind(this);
+      this.handleAcceptInvite = this.handleAcceptInvite.bind(this)
   }
 
   componentDidMount(){
@@ -178,6 +179,30 @@ class MainPage extends React.Component {
       });
   };
 
+  handleAcceptInvite = (inviteId) => {
+      fetch(`/api/v4/invites/${inviteId}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              if(data.accepted) {
+                  this.addNewRoom(data.room);
+                  this.handleRoom(data.room.id)
+              }
+          })
+          .then(() => this.removeInvite(inviteId))
+
+  };
+
+  removeInvite = (inviteId) => {
+      let newInvites = this.state.invites.filter((invite) => invite.id !== inviteId)
+      this.setState({
+          invites: newInvites
+      })
+  };
+
   render () {
     let activeItem = this.state.activeRoom.type === 'room' ?
         (<ActiveRoom    handleSend={this.handleSend}
@@ -192,6 +217,8 @@ class MainPage extends React.Component {
                         scrollToBottom={this.basicScroll}/>) :
         (<ActiveInvite  allUsers={this.state.users}
                         dia1={this.props.dia1}
+                        invite={this.state.activeRoom}
+                        acceptInvite={this.handleAcceptInvite}
                         avatar={this.props.avatar}
                         />);
     return (

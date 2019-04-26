@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :rooms, only: %i[show index create destroy]
       resources :messages
       resources :invites, only: %i[show accept]
+      post '/invites/:id', to: 'invites#accept'
     end
   end
 

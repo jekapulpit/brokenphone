@@ -3,7 +3,7 @@ class Api::V4::InvitesController < ApplicationController
 
   def accept
     invite = Invite.find(params[:id])
-    render json: { accepted: invite.accept, user: invite.user }
+    render json: { accepted: invite.accept, room: invite.room,  }
   end
 
   def show

@@ -3,7 +3,7 @@ class Invite < ApplicationRecord
   belongs_to :user
 
   def accept
-    unless accepted
+    unless accepted || user.in?(room.users)
       room.users << user
       self.update(accepted: true)
     end

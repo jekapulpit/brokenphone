@@ -13,6 +13,10 @@ class Room < ApplicationRecord
   end
 
   def invite(user, message = 'hey! We need to talk!')
-    Invite.create(content: message, room: self, user: user)
+    Invite.create(content: message, room: self, user: user) unless user.in?(users) || invited?(user)
+  end
+
+  def invited?(user)
+    invites.find_by(user: user)
   end
 end
