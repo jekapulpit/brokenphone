@@ -10,6 +10,6 @@ class Invite < ApplicationRecord
   end
 
   def with_type
-    attributes.merge({ type: 'room' })
+    attributes.merge({ type: 'invite' })
   end
 end

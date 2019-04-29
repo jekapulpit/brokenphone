@@ -4,7 +4,7 @@ import Result from "./Result";
 const SearchWindow = props => {
     let userData={};
     let results = props.searchResults.map((result) => {
-        return <Result inviteUser={props.inviteUser} userInfo={result}/>
+        return <Result key={result.id} inviteUser={props.inviteUser} userInfo={result}/>
     });
     return (
       <div className={"pop-up-background" + (props.visible ? "" : " hidden")}>
