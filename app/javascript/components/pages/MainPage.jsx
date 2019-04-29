@@ -28,7 +28,9 @@ class MainPage extends React.Component {
       this.handleCreateRoom = this.handleCreateRoom.bind(this);
       this.handleDeleteRoom = this.handleDeleteRoom.bind(this);
       this.handleInvite = this.handleInvite.bind(this);
-      this.handleAcceptInvite = this.handleAcceptInvite.bind(this)
+      this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      this.toggleSearch = this.toggleSearch.bind(this);
   }
 
   componentDidMount(){
@@ -176,7 +178,8 @@ class MainPage extends React.Component {
       .then((data) => {this.setState({
           activeRoom: data.room,
           messages: data.messages,
-          users: data.users
+          users: data.users,
+          searchResults: [],
         });
         this.basicScroll()
       });
@@ -206,11 +209,27 @@ class MainPage extends React.Component {
       })
   };
 
+  handleSearch = (request) => {
+      fetch(`/api/v4/users/search/?request=${request}&room_id=${this.state.activeRoom.id}`)
+          .then((response) => {return response.json()})
+              .then((data) => {this.setState({
+                  searchResults: data.results,
+              })
+          });
+  };
+
+  toggleSearch = () => {
+      this.setState({
+          searching: !this.state.searching
+      })
+  };
+
   render () {
     let activeItem = this.state.activeRoom.type === 'room' ?
         (<ActiveRoom    handleSend={this.handleSend}
                         handleDeleteRoom={this.handleDeleteRoom}
                         userId={this.props.userId}
+                        toggleSearch={this.toggleSearch}
                         messages={this.state.messages}
                         user={this.props.user}
                         allUsers={this.state.users}
@@ -238,7 +257,10 @@ class MainPage extends React.Component {
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}/>
             {activeItem}
-            <SearchWindow visible={this.state.searching} />
+            <SearchWindow handleSearch={this.handleSearch}
+                          toggleSearch={this.toggleSearch}
+                          searchResults={this.state.searchResults}
+                          visible={this.state.searching} />
         </div>
     );
   }

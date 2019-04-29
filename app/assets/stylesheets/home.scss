@@ -63,7 +63,7 @@ html, body {
     .results {
       width: 100%;
       padding: 20px;
-      height: 530px;
+      height: 490px;
       display: flex;
       flex-direction: column;
       overflow-y: scroll;
@@ -76,8 +76,31 @@ html, body {
           display: flex;
           justify-content: center;
           align-items: center;
+
+          .accepted {
+            display: block;
+            padding: 2px;
+            background-color: #008600;
+            color: #aaaaaa;
+            border: 1px solid #aaaaaa;
+          }
+
+          .sended {
+            padding: 2px;
+            display: block;
+            background-color: #aaaaaa;
+            color: #000;
+            border: 1px solid #000;
+          }
         }
       }
+    }
+    .exit {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
     }
   }
 }

@@ -1,14 +1,20 @@
 import React from "react"
 import PropTypes from "prop-types"
 const Result = props => {
+    let acceptance = {};
+    if (props.userInfo.invited || props.userInfo.accepted) {
+        acceptance = props.userInfo.accepted ? (<p className="accepted">accepted</p>) : (<p className="sended">sended</p>);
+    }
+    else
+        acceptance = (<button>invite</button>);
     return (
         <div className="result">
           <div className="person-data">
-            <h2>fullname</h2>
-            <p>email</p>
+            <h2>{props.userInfo.full_name}</h2>
+            <p>{props.userInfo.email}</p>
           </div>
           <div className="invite-button">
-            <button>invite</button>
+            {acceptance}
           </div>
         </div>
     );

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :messages
       resources :invites, only: %i[show accept]
       post '/invites/:id', to: 'invites#accept'
+      get '/users/search', to: 'search#find_users'
     end
   end
 

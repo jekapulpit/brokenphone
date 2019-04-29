@@ -15,6 +15,14 @@ class User < ApplicationRecord
     Invite.find_by(room: room, user: self)
   end
 
+  def with_invited(room)
+    attributes.merge({
+                         invited: invited_to?(room),
+                         accepted: self.in?(room.users)
+                     })
+  end
+
   scope :search_by_email, -> (email) { search(email, fields: [{email: :exact}, :full_name]) }
+  scope :search_for_invite, -> (request, room_id) { search_by_email(request).map{|user| user.with_invited(Room.find(room_id))} }
 
 end
