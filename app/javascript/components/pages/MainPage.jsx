@@ -5,6 +5,7 @@ import Footer from "../Footer";
 import Menu from "../rooms/Menu";
 import ActiveRoom from "../rooms/ActiveRoom";
 import ActiveInvite from "../rooms/ActiveInvite";
+import SearchWindow from "../search/SearchWindow";
 
 class MainPage extends React.Component {
 
@@ -16,7 +17,9 @@ class MainPage extends React.Component {
           newRoom: false,
           activeRoom: props.rooms[0],
           messages: [],
-          users: []
+          users: [],
+          searchResults: [],
+          searching: false,
       };
       this.handleRoom = this.handleRoom.bind(this);
       this.handleSend = this.handleSend.bind(this);
@@ -235,6 +238,7 @@ class MainPage extends React.Component {
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}/>
             {activeItem}
+            <SearchWindow visible={this.state.searching} />
         </div>
     );
   }
