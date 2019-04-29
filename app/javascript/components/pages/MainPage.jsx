@@ -5,6 +5,8 @@ import Footer from "../Footer";
 import Menu from "../rooms/Menu";
 import ActiveRoom from "../rooms/ActiveRoom";
 import ActiveInvite from "../rooms/ActiveInvite";
+import SearchWindow from "../search/SearchWindow";
+import EmptyRoom from "../rooms/EmptyRoom";
 
 class MainPage extends React.Component {
 
@@ -14,9 +16,11 @@ class MainPage extends React.Component {
           rooms: props.rooms,
           invites: props.invites,
           newRoom: false,
-          activeRoom: props.rooms[0],
+          activeRoom: { id: null },
           messages: [],
-          users: []
+          users: [],
+          searchResults: [],
+          searching: false,
       };
       this.handleRoom = this.handleRoom.bind(this);
       this.handleSend = this.handleSend.bind(this);
@@ -25,18 +29,23 @@ class MainPage extends React.Component {
       this.handleCreateRoom = this.handleCreateRoom.bind(this);
       this.handleDeleteRoom = this.handleDeleteRoom.bind(this);
       this.handleInvite = this.handleInvite.bind(this);
-      this.handleAcceptInvite = this.handleAcceptInvite.bind(this)
+      this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      this.toggleSearch = this.toggleSearch.bind(this);
+      this.inviteUser = this.inviteUser.bind(this);
   }
 
   componentDidMount(){
-    fetch(`/api/v4/rooms/${this.state.activeRoom.id}`)
-      .then((response) => {return response.json()})
-      .then((data) => {this.setState({
-            messages: data.messages,
-            users: data.users
-        })
-      });
-    let recv = this.updateMessages.bind(this);
+    if(this.state.activeRoom.type) {
+        fetch(`/api/v4/rooms/${this.state.activeRoom.id}`)
+            .then((response) => {return response.json()})
+            .then((data) => {this.setState({
+                messages: data.messages,
+                users: data.users
+            })
+        });
+    }
+    let recv = this.updateState.bind(this);
     this.subscribe(recv);
   }
 
@@ -99,9 +108,13 @@ class MainPage extends React.Component {
         },
 
         received: recv,
+
         send_message: function (data) {
           return this.perform('send_message', data)
+        },
 
+        send_invite: function (data) {
+            return this.perform('send_invite', data)
         }
     });
   };
@@ -126,25 +139,35 @@ class MainPage extends React.Component {
         })
   };
 
-  updateMessages = (data) => {
-    let newRoomsState = this.state.rooms.map((room) => {
-        if(room.id === data.message.recipient_id) {
-            room.last_message = data.message;
-            return room;
-        }
-        else return room;
-    });
-
-    this.setState({
-        rooms: newRoomsState
-    });
-
-    if(this.state.activeRoom.id === data.message.recipient_id){
-        this.setState({
-            messages: this.state.messages.concat(data.message)
+  updateState = (data) => {
+    if (data.message) {
+        let newRoomsState = this.state.rooms.map((room) => {
+            if(room.id === data.message.recipient_id) {
+                room.last_message = data.message;
+                return room;
+            }
+            else return room;
         });
-        this.basicScroll()
+        this.setState({
+            rooms: newRoomsState
+        });
+        if(this.state.activeRoom.id === data.message.recipient_id){
+            this.setState({
+                messages: this.state.messages.concat(data.message)
+            });
+            this.basicScroll()
+        }
     }
+    if (data.invite)
+    {
+        this.setState({
+            invites: this.state.invites.concat(data.invite)
+        });
+    }
+  };
+
+  sendInvite = (invite) => {
+      App.rooms.send_invite({invite: invite});
   };
 
   sendMessage = (message) => {
@@ -173,7 +196,8 @@ class MainPage extends React.Component {
       .then((data) => {this.setState({
           activeRoom: data.room,
           messages: data.messages,
-          users: data.users
+          users: data.users,
+          searchResults: [],
         });
         this.basicScroll()
       });
@@ -196,31 +220,78 @@ class MainPage extends React.Component {
 
   };
 
+  inviteUser = (userId, content = 'hey! We need to talk') => {
+      let body = JSON.stringify({ invite: {room_id: this.state.activeRoom.id, user_id: userId, content: content} });
+      fetch('/api/v4/invite/create', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: body,
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              if(data.created) {
+                  this.updateResults(userId);
+                  this.sendInvite(data.invite)
+              }
+          })
+  };
+
+  updateResults = (userId) => {
+      let newResults = this.state.searchResults.map((result) => {
+          if(result.id === userId)
+              result.invited = true;
+          return result
+      });
+      this.setState({
+          searchResults: newResults
+      })
+  };
+
   removeInvite = (inviteId) => {
-      let newInvites = this.state.invites.filter((invite) => invite.id !== inviteId)
+      let newInvites = this.state.invites.filter((invite) => invite.id !== inviteId);
       this.setState({
           invites: newInvites
       })
   };
 
+  handleSearch = (request) => {
+      fetch(`/api/v4/users/search/?request=${request}&room_id=${this.state.activeRoom.id}`)
+          .then((response) => {return response.json()})
+              .then((data) => {this.setState({
+                  searchResults: data.results,
+              })
+          });
+  };
+
+  toggleSearch = () => {
+      this.setState({
+          searching: !this.state.searching
+      })
+  };
+
   render () {
-    let activeItem = this.state.activeRoom.type === 'room' ?
-        (<ActiveRoom    handleSend={this.handleSend}
-                        handleDeleteRoom={this.handleDeleteRoom}
-                        userId={this.props.userId}
-                        messages={this.state.messages}
-                        user={this.props.user}
-                        allUsers={this.state.users}
-                        room={this.state.activeRoom}
-                        dia1={this.props.dia1}
-                        avatar={this.props.avatar}
-                        scrollToBottom={this.basicScroll}/>) :
-        (<ActiveInvite  allUsers={this.state.users}
-                        dia1={this.props.dia1}
-                        invite={this.state.activeRoom}
-                        acceptInvite={this.handleAcceptInvite}
-                        avatar={this.props.avatar}
-                        />);
+    let activeItem = <EmptyRoom />;
+    if(this.state.activeRoom.type) {
+        activeItem = this.state.activeRoom.type === 'room' ?
+            (<ActiveRoom    handleSend={this.handleSend}
+                            handleDeleteRoom={this.handleDeleteRoom}
+                            userId={this.props.userId}
+                            toggleSearch={this.toggleSearch}
+                            messages={this.state.messages}
+                            user={this.props.user}
+                            allUsers={this.state.users}
+                            room={this.state.activeRoom}
+                            dia1={this.props.dia1}
+                            avatar={this.props.avatar}
+                            scrollToBottom={this.basicScroll}/>) :
+            (<ActiveInvite  allUsers={this.state.users}
+                            dia1={this.props.dia1}
+                            invite={this.state.activeRoom}
+                            acceptInvite={this.handleAcceptInvite}
+                            avatar={this.props.avatar}
+            />);
+    }
     return (
         <div className="content">
             <Menu       handleCreateRoom={this.handleCreateRoom}
@@ -235,6 +306,11 @@ class MainPage extends React.Component {
                         dia1={this.props.dia1}
                         avatar={this.props.avatar}/>
             {activeItem}
+            <SearchWindow handleSearch={this.handleSearch}
+                          toggleSearch={this.toggleSearch}
+                          inviteUser={this.inviteUser}
+                          searchResults={this.state.searchResults}
+                          visible={this.state.searching} />
         </div>
     );
   }

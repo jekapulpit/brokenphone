@@ -78,11 +78,6 @@ GEM
       elasticsearch-transport (= 6.3.0)
     elasticsearch-api (6.3.0)
       multi_json
-    elasticsearch-model (6.0.0)
-      activesupport (> 3)
-      elasticsearch (> 1)
-      hashie
-    elasticsearch-rails (6.0.0)
     elasticsearch-transport (6.3.0)
       faraday
       multi_json
@@ -238,6 +233,10 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    searchkick (4.0.0)
+      activemodel (>= 5)
+      elasticsearch (>= 6)
+      hashie
     sidekiq (5.2.5)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (>= 1.5.0)
@@ -285,9 +284,6 @@ DEPENDENCIES
   byebug
   devise
   devise-async
-  elasticsearch
-  elasticsearch-model
-  elasticsearch-rails
   factory_girl_rails
   faker
   figaro
@@ -303,6 +299,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
+  searchkick
   sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)

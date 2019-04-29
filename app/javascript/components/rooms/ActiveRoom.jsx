@@ -39,6 +39,7 @@ class ActiveRoom extends React.Component {
               <div className="name">
                 <div>{names}</div>
                 <button onClick={() => {this.props.handleDeleteRoom(this.props.room.id)}} className="timeout">Leave this chat</button>
+                <button onClick={() => {this.props.toggleSearch()}} className="timeout">invite more people</button>
               </div>
             </div>
             <div id="m-list" ref={`thing`} className="messages">

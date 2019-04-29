@@ -1,6 +1,6 @@
 class RoomsChannel < ApplicationCable::Channel
   def subscribed
-    @room = Room.first
+    @room = 'all_rooms'
     stream_for @room
   end
 
@@ -11,6 +11,10 @@ class RoomsChannel < ApplicationCable::Channel
   def received(data); end
 
   def send_message(data)
+    RoomsChannel.broadcast_to(@room, data)
+  end
+
+  def send_invite(data)
     RoomsChannel.broadcast_to(@room, data)
   end
 end
