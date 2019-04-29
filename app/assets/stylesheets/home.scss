@@ -25,8 +25,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #000;
-  opacity: .5;
+  background: rgba(0,0,0,.3);
   z-index: 1000;
   -webkit-transition: opacity .3s ease-in;
   -moz-transition: opacity .3s ease-in;
@@ -43,11 +42,43 @@ html, body {
   .pop-up {
     visibility: inherit;
     display: flex;
+    opacity: 1;
     flex-direction: column;
     width: 500px;
     height: 600px;
-    background-color: #fff;
+    background: rgba(255,255,255,.5);;
     z-index: 2000;
+
+    .search-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+
+      form {
+        display: flex;
+      }
+    }
+
+    .results {
+      width: 100%;
+      padding: 20px;
+      height: 530px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+
+      .result {
+        display: flex;
+        justify-content: space-between;
+
+        .invite-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
   }
 }
 
