@@ -31,6 +31,7 @@ class MainPage extends React.Component {
       this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.toggleSearch = this.toggleSearch.bind(this);
+      this.inviteUser = this.inviteUser.bind(this);
   }
 
   componentDidMount(){
@@ -202,8 +203,35 @@ class MainPage extends React.Component {
 
   };
 
+  inviteUser = (userId, content = 'hey! We need to talk') => {
+      let body = JSON.stringify({ invite: {room_id: this.state.activeRoom.id, user_id: userId, content: content} });
+      fetch('/api/v4/invite/create', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: body,
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              if(data.created) {
+                  this.updateResults(userId)
+              }
+          })
+  };
+
+  updateResults = (userId) => {
+      let newResults = this.state.searchResults.map((result) => {
+          if(result.id === userId)
+              result.invited = true;
+          return result
+      });
+      this.setState({
+          searchResults: newResults
+      })
+  };
+
   removeInvite = (inviteId) => {
-      let newInvites = this.state.invites.filter((invite) => invite.id !== inviteId)
+      let newInvites = this.state.invites.filter((invite) => invite.id !== inviteId);
       this.setState({
           invites: newInvites
       })
@@ -259,6 +287,7 @@ class MainPage extends React.Component {
             {activeItem}
             <SearchWindow handleSearch={this.handleSearch}
                           toggleSearch={this.toggleSearch}
+                          inviteUser={this.inviteUser}
                           searchResults={this.state.searchResults}
                           visible={this.state.searching} />
         </div>

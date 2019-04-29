@@ -6,7 +6,7 @@ const Result = props => {
         acceptance = props.userInfo.accepted ? (<p className="accepted">accepted</p>) : (<p className="sended">sended</p>);
     }
     else
-        acceptance = (<button>invite</button>);
+        acceptance = (<button onClick={() => {props.inviteUser(props.userInfo.id, 'dasdaasda')}}>invite</button>);
     return (
         <div className="result">
           <div className="person-data">

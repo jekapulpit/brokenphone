@@ -12,9 +12,19 @@ class Api::V4::InvitesController < ApplicationController
     render json: { invite: Invite.find(params[:id]), users: users }
   end
 
+  def create
+    invite = Invite.new
+    invite.attributes = invite_params
+    render json: {created: invite.save}
+  end
+
   def index
     render json: { invites: current_user.invites.where(accepted: false) }
   end
 
-  def create; end
+  private
+
+  def invite_params
+    params.require(:invite).permit(:user_id, :room_id, :content)
+  end
 end
