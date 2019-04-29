@@ -9,7 +9,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
+  searchkick word_start: [:full_name, :email]
+
   def invited_to?(room)
     Invite.find_by(room: room, user: self)
   end
+
+  scope :search_by_email, -> (email) { search(email, fields: [{email: :exact}, :full_name]) }
+
 end
