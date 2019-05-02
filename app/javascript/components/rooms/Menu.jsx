@@ -7,8 +7,10 @@ const Menu = props => {
         <div className="menu">
           <Profile user={props.user}
                    avatar={props.avatar} />
-          <h5>Свежие чаты:</h5>
+          <h5>Активные чаты:</h5>
           <RoomsList handleCreateRoom={props.handleCreateRoom}
+                     handleInvite={props.handleInvite}
+                     invites={props.invites}
                      handleNew={props.handleNew}
                      newRoom={props.newRoom}
                      activeId={props.activeId}

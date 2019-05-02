@@ -4,8 +4,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v4 do
-      resources :rooms, only: %i[show index create]
+      resources :rooms, only: %i[show index create destroy]
       resources :messages
+      resources :invites, only: %i[show accept]
+      post '/invites/:id', to: 'invites#accept'
+      post '/invite/create', to: 'invites#create'
+      get '/users/search', to: 'search#find_users'
     end
   end
 

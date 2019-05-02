@@ -25,6 +25,7 @@ class ActiveRoom extends React.Component {
   };
 
   render () {
+    let names = this.props.allUsers.map((user) => {return user.full_name}).join(', ');
     let messages = this.props.messages.map((message) => {
       return(<Message sender={message.senders_name} key={message.id} fromMe={message.sender_id !== this.props.userId} sended={message.sended} text={message.content} />)
     });
@@ -33,11 +34,12 @@ class ActiveRoom extends React.Component {
           <div className="message-box">
             <div className="partner">
               <div className="image" style={{ backgroundImage: "url(" + this.props.dia1 + ")" }}>
-                <div className="name">AW</div>
+                <div className="name" />
               </div>
               <div className="name">
-                <div>Anna Wrote</div>
-                <div className="timeout">была в сети 5 минут назад</div>
+                <div>{names}</div>
+                <button onClick={() => {this.props.handleDeleteRoom(this.props.room.id)}} className="timeout">Leave this chat</button>
+                <button onClick={() => {this.props.toggleSearch()}} className="timeout">invite more people</button>
               </div>
             </div>
             <div id="m-list" ref={`thing`} className="messages">

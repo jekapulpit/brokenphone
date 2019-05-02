@@ -5,6 +5,17 @@ const RoomsList = props => {
     let rooms = props.rooms.map((room) => {
        return (  <Room active={props.activeId === room.id} room={room} handleRoom={props.handleRoom} key={room.id} dia1={props.dia1} />  )
     });
+    let invites = props.invites.map((invite) => {
+       return (
+           <div onClick={() => props.handleInvite(invite.id)} key={invite.id} className="content_dialog">
+               <div className="dialog">
+                   <div className="right">
+                       <div className="name">invite</div>
+                   </div>
+               </div>
+           </div>
+       )
+    });
     let newRoomAttrs = {};
     let newRoom = !props.newRoom ?
         (<div className="content_dialog"><button style={{margin: '10px', height: '30px'}} onClick={() => props.handleNew()}>Add a channel</button></div>) :
@@ -18,6 +29,7 @@ const RoomsList = props => {
         </div>);
     return (
         <div className="dialogs">
+            {invites}
             {rooms}
             {newRoom}
         </div>
