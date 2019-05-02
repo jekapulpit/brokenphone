@@ -17,4 +17,8 @@ class RoomsChannel < ApplicationCable::Channel
   def send_invite(data)
     RoomsChannel.broadcast_to(@room, data)
   end
+
+  def update_invite(data)
+    RoomsChannel.broadcast_to(@room, data)
+  end
 end

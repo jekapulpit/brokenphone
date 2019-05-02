@@ -115,7 +115,11 @@ class MainPage extends React.Component {
 
         send_invite: function (data) {
             return this.perform('send_invite', data)
-        }
+        },
+
+        update_invite: function (data) {
+            return this.perform('update_invite', data)
+        },
     });
   };
 
@@ -158,11 +162,21 @@ class MainPage extends React.Component {
             this.basicScroll()
         }
     }
-    if (data.invite)
+    if (data.invite && data.invite.user_id === this.props.user.id)
     {
         this.setState({
             invites: this.state.invites.concat(data.invite)
         });
+    }
+    if (data.user) {
+        let newResults = this.state.searchResults.map((result) => {
+            if(result.id === data.user.id)
+                result.accepted = data.accepted;
+            return result
+        });
+        this.setState({
+            searchResults: newResults
+        })
     }
   };
 
@@ -213,11 +227,17 @@ class MainPage extends React.Component {
           .then((data)=>{
               if(data.accepted) {
                   this.addNewRoom(data.room);
-                  this.handleRoom(data.room.id)
+                  this.handleRoom(data.room.id);
+                  this.sendAnswer(data.invite, data.user, true);
+              } else {
+                  this.sendAcception(data.invite, data.user, false);
               }
           })
           .then(() => this.removeInvite(inviteId))
+  };
 
+  sendAnswer = (invite, user, accepted) => {
+      App.rooms.update_invite({invite: invite, user: user, accepted: accepted});
   };
 
   inviteUser = (userId, content = 'hey! We need to talk') => {
