@@ -29,7 +29,7 @@ class ActiveRoom extends React.Component {
     let names = this.props.allUsers.map((user) => {return user.full_name}).join(', ');
     let messages = this.props.messages.map((message) => {
       return message.is_notification ? (
-          <Notification text={message.content}/>
+          <Notification key={message.id} text={message.content}/>
           ) :
           (<Message    sender={message.senders_name}
                        key={message.id}

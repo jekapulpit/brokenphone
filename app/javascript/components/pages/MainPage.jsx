@@ -79,6 +79,7 @@ class MainPage extends React.Component {
     }).then((response) => {return response.json()})
       .then((data)=>{
         this.deleteRoom(roomId);
+        this.sendNotice(data, 'left')
     });
   };
 
@@ -207,13 +208,29 @@ class MainPage extends React.Component {
           });
   };
 
-  sendNotice = (data) => {
+  sendNotice = (data, status) => {
+      let content;
+      let roomId = this.state.activeRoom.id;
+      switch (status) {
+          case 'invited':
+              content = `${this.props.user.full_name || this.props.user.email} invited ${data.invite.recipient.full_name || data.invite.recipient.email} to this chat`;
+              break;
+          case 'joined':
+              content = `${data.user.full_name || data.user.email} joined to this chat`;
+              roomId = data.room.id;
+              break;
+          case 'left':
+              content = `${data.user.full_name || data.user.email} left from this chat`;
+              break;
+          default:
+              content = 'ogo';
+      }
       let body = JSON.stringify({
           message: {
-              recipient_id: this.state.activeRoom.id,
+              recipient_id: roomId,
               recipient_type: "Room",
-              content: `${this.props.user.full_name || this.props.user.email} invited ${data.invite.recipient.full_name || data.invite.recipient.email} to this chat`,
-              sender_id: this.state.activeRoom.id,
+              content: content,
+              sender_id: roomId,
               sender_type: "Room"
           }
       });
@@ -255,8 +272,7 @@ class MainPage extends React.Component {
                   this.addNewRoom(data.room);
                   this.handleRoom(data.room.id);
                   this.sendAnswer(data.invite, data.user, true);
-              } else {
-                  this.sendAcception(data.invite, data.user, false);
+                  this.sendNotice(data, 'joined');
               }
           })
           .then(() => this.removeInvite(inviteId))
@@ -279,7 +295,7 @@ class MainPage extends React.Component {
               if(data.created) {
                   this.updateResults(userId);
                   this.sendInvite(data.invite);
-                  this.sendNotice(data);
+                  this.sendNotice(data, 'invited');
               }
           })
   };
