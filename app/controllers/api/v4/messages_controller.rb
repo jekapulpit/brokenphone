@@ -3,8 +3,6 @@ class Api::V4::MessagesController < ApplicationController
 
   def create
     message = Message.new(message_params)
-    message.recipient = Room.find(params[:recipient_id])
-    message.sender = current_user
     render json: {
         valid: message.save,
         message: message.with_senders_name
@@ -12,6 +10,6 @@ class Api::V4::MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:content, :sender_id)
+    params.require(:message).permit(:content, :sender_id, :recipient_id, :recipient_type, :sender_type)
   end
 end

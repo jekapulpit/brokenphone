@@ -125,10 +125,13 @@ class MainPage extends React.Component {
 
   handleSend = (message) => {
     let body = JSON.stringify({
-        recipient_id: this.state.activeRoom.id,
-        recipient_type: "Room",
-        content: message,
-        sender_id: this.props.userId
+        message: {
+            recipient_id: this.state.activeRoom.id,
+            recipient_type: "Room",
+            content: message,
+            sender_id: this.props.userId,
+            sender_type: "User"
+        }
       });
     fetch('/api/v4/messages', {
         method: 'POST',
@@ -204,6 +207,29 @@ class MainPage extends React.Component {
           });
   };
 
+  sendNotice = (data) => {
+      let body = JSON.stringify({
+          message: {
+              recipient_id: this.state.activeRoom.id,
+              recipient_type: "Room",
+              content: `${this.props.user.full_name || this.props.user.email} invited ${data.invite.recipient.full_name || data.invite.recipient.email} to this chat`,
+              sender_id: this.state.activeRoom.id,
+              sender_type: "Room"
+          }
+      });
+      fetch('/api/v4/messages', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: body,
+      }).then((response) => {return response.json()})
+          .then((data) => {
+              if(data.valid)
+                  this.sendMessage(data.message)
+          })
+  };
+
   handleRoom = (roomId) => {
     fetch(`/api/v4/rooms/${roomId}`)
       .then((response) => {return response.json()})
@@ -252,7 +278,8 @@ class MainPage extends React.Component {
           .then((data)=>{
               if(data.created) {
                   this.updateResults(userId);
-                  this.sendInvite(data.invite)
+                  this.sendInvite(data.invite);
+                  this.sendNotice(data);
               }
           })
   };

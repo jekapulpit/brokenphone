@@ -9,13 +9,13 @@ class Api::V4::InvitesController < ApplicationController
   def show
     invite = Invite.find(params[:id])
     users = invite.room.users
-    render json: { invite: Invite.find(params[:id]).with_type, users: users }
+    render json: { invite: Invite.find(params[:id]).with_all_attributes, users: users }
   end
 
   def create
     invite = Invite.new
     invite.attributes = invite_params
-    render json: {created: invite.save, invite: invite.with_type}
+    render json: {created: invite.save, invite: invite.with_all_attributes}
   end
 
   def index

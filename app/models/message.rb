@@ -5,8 +5,13 @@ class Message < ApplicationRecord
   def with_senders_name
     attributes
         .merge(
-            senders_name: sender.full_name,
-            sended: created_at.strftime("%d/%m/%Y %H:%M")
+            senders_name: (self.notification? ? nil : sender.full_name),
+            sended: created_at.strftime("%d/%m/%Y %H:%M"),
+            is_notification: self.notification?
         )
+  end
+
+  def notification?
+    sender == recipient
   end
 end

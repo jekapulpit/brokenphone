@@ -28,6 +28,12 @@ body,html {
 	background-color: #f6f6f6;
 	min-height: 20%;
 	position: relative;
+
+  .names {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 .content .menu .self .exit {
 	cursor: pointer;
@@ -52,13 +58,10 @@ body,html {
 	border-radius: 50px;
 }
 .content .menu .self .name {
-	min-height: 120px;
-	max-height: 120px;
-	display: flex;
-	align-items: center;
 	font-family: Raleway;
 	font-weight: bold;
-	width: 100px;
+	max-width: 130px;
+    margin-bottom: 10px;
 }
 .content .menu h5 {
     font-size: 15px;
@@ -89,6 +92,7 @@ body,html {
 	display: flex;
     flex-direction: column;
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 75%;
 }
 .content .menu .dialogs .content_dialog {
@@ -189,10 +193,20 @@ body,html {
 	text-align: center;
 }
 .content .talk .message-box .partner .name .timeout {
-	font-size: 10px;
-	color: #bdbdbd;
-	padding-top: 10px;
+	font-size: 12px;
+	color: #fff;
 	font-weight: normal;
+  -webkit-box-shadow: 3px 3px 10px 0 rgba(0,0,0,.5);
+  -moz-box-shadow: 3px 3px 10px 0 rgba(0,0,0,.5);
+  box-shadow: 3px 3px 10px 0 rgba(0,0,0,.5);
+  margin: 5px;
+  &.leave {
+    background-color: #730E15;
+  }
+
+  &.invite {
+    background-color: #01487a;
+  }
 }
 .content .talk .message-box .partner .image {
 	width: 70px;
@@ -247,6 +261,26 @@ body,html {
   .sender, .sended {
     align-self: flex-start;
   }
+
+  &.center {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .notification {
+    width: 300px;
+    border-right: 10px;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px;
+    background-color: #01487a;
+    border-radius: 25px;
+    margin: 15px;
+    color: #f6f6f6;
+    -webkit-box-shadow: 3px 3px 10px 0 rgba(0,0,0,.3);
+    -moz-box-shadow: 3px 3px 10px 0 rgba(0,0,0,.3);
+    box-shadow: 3px 3px 10px 0 rgba(0,0,0,.3);
+  }
 }
 .content .talk .message-box .messages .partner-message {
 	width: 100%;
@@ -266,6 +300,9 @@ body,html {
 	font-family: Raleway;
 	font-size: 12px;
 	border-radius: 3px;
+  -webkit-box-shadow: 3px 3px 10px 0 rgba(0,0,0,.3);
+  -moz-box-shadow: 3px 3px 10px 0 rgba(0,0,0,.3);
+  box-shadow: 3px 3px 10px 0 rgba(0,0,0,.3);
 }
 .content .talk .message-box .send-box {
 	width: 100%;

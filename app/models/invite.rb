@@ -9,7 +9,10 @@ class Invite < ApplicationRecord
     end
   end
 
-  def with_type
-    attributes.merge({ type: 'invite' })
+  def with_all_attributes
+    attributes.merge({
+                         type: 'invite',
+                         recipient: user
+                     })
   end
 end
