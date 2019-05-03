@@ -4,11 +4,18 @@ import Room from "./Room";
 import Invite from "./Invite";
 const RoomsList = props => {
     let rooms = props.rooms.map((room) => {
-       return (  <Room active={props.activeId === room.id && props.activeType === "room"} room={room} handleRoom={props.handleRoom} key={room.id} dia1={props.dia1} />  )
+       return (  <Room active={props.activeId === room.id && props.activeType === "room"}
+                       room={room}
+                       handleRoom={props.handleRoom}
+                       key={room.id}
+                       dia1={props.dia1} />  )
     });
     let invites = props.invites.map((invite) => {
        return (
-           <Invite invite={invite} handleInvite={props.handleInvite} active={props.activeId === invite.id && props.activeType === "invite"}/>
+           <Invite key={invite.id}
+                   invite={invite}
+                   handleInvite={props.handleInvite}
+                   active={props.activeId === invite.id && props.activeType === "invite"}/>
        )
     });
     let newRoomAttrs = {};
