@@ -13,7 +13,9 @@ class MainPage extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          rooms: props.rooms,
+          rooms: props.rooms.sort(function(a,b){
+              return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+          }),
           invites: props.invites,
           newRoom: false,
           activeRoom: { id: null },
@@ -41,7 +43,7 @@ class MainPage extends React.Component {
             .then((response) => {return response.json()})
             .then((data) => {this.setState({
                 messages: data.messages,
-                users: data.users
+                users: data.users,
             })
         });
     }
@@ -157,7 +159,9 @@ class MainPage extends React.Component {
             else return room;
         });
         this.setState({
-            rooms: newRoomsState
+            rooms: newRoomsState.sort(function(a,b){
+                return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+            })
         });
         if(this.state.activeRoom.id === data.message.recipient_id){
             this.setState({
