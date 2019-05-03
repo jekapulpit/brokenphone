@@ -366,6 +366,7 @@ class MainPage extends React.Component {
                         newRoom={this.state.newRoom}
                         user={this.props.user}
                         activeId={this.state.activeRoom.id}
+                        activeType={this.state.activeRoom.type}
                         handleInvite={this.handleInvite}
                         handleRoom={this.handleRoom}
                         rooms={this.state.rooms}
