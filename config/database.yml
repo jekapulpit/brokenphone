@@ -11,11 +11,11 @@ default: &default
 
 development:
   <<: *default
-  database: chat_dev
+  database: chat_dev1
 
 test:
   <<: *default
-  database: chat_test
+  database: chat_test1
 
 production:
   <<: *default
