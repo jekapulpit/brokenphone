@@ -2,10 +2,18 @@ class Invite < ApplicationRecord
   belongs_to :room
   belongs_to :user
 
+  enum status: [ :sended, :accepted, :rejected ]
+
   def accept
-    unless accepted || user.in?(room.users)
+    unless status != 'sended' || user.in?(room.users)
       room.users << user
-      self.update(accepted: true)
+      self.update(status: 'accepted')
+    end
+  end
+
+  def reject
+    unless status != 'sended' || user.in?(room.users)
+      self.update(status: 'rejected')
     end
   end
 

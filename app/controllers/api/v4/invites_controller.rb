@@ -19,7 +19,7 @@ class Api::V4::InvitesController < ApplicationController
   end
 
   def index
-    render json: { invites: current_user.invites.where(accepted: false) }
+    render json: { invites: current_user.invites.where(status: 'sended') }
   end
 
   private
