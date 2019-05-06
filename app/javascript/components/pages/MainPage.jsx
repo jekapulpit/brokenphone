@@ -14,7 +14,9 @@ class MainPage extends React.Component {
       super(props);
       this.state = {
           rooms: props.rooms.sort(function(a,b){
-              return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+              if (b.last_message)
+                return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+              return -1;
           }),
           invites: props.invites,
           newRoom: false,
