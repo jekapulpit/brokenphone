@@ -60,6 +60,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
   config.action_mailer.delivery_method = :smtp
+  config.default_url_options[:host] = ENV['default_url_host']
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.action_mailer.perform_deliveries = true
