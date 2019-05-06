@@ -5,7 +5,7 @@ body,html {
 }
 @font-face {
     font-family: Raleway;
-    src: url('fonts/CenturyGothic.ttf');
+    src: url( asset-path('CenturyGothic.ttf') );
 }
 .content {
 	width: 100%;
@@ -37,7 +37,7 @@ body,html {
 }
 .content .menu .self .exit {
 	cursor: pointer;
-	background-image: url('images/options.png');
+	background-image: url( asset-path('options.png'));
 	background-position: 50% 50%;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -172,7 +172,7 @@ body,html {
 	width: 100%;
 	height: 100%;
 	background-color: #002640;
-	background-image: url('images/back-close.png');
+	background-image: url( asset-path('back-close.png') );
 	background-position: 50% 50%;
 	background-size: 40%;
 	background-repeat: no-repeat;
