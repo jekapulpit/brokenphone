@@ -14,9 +14,12 @@ class MainPage extends React.Component {
       super(props);
       this.state = {
           rooms: props.rooms.sort(function(a,b){
-              if (b.last_message)
+              try {
                 return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
-              return -1;
+              }
+              catch {
+                  return -1;
+              }
           }),
           invites: props.invites,
           newRoom: false,
@@ -84,8 +87,9 @@ class MainPage extends React.Component {
     }).then((response) => {return response.json()})
       .then((data)=>{
         this.deleteRoom(roomId);
-        this.sendNotice(data, 'left')
-    });
+        this.sendNotice(data, 'left');
+        this.sendAnswer(null, data.user, true, data.destroyed);
+      });
   };
 
   deleteRoom = (roomId) => {
@@ -163,7 +167,12 @@ class MainPage extends React.Component {
         });
         this.setState({
             rooms: newRoomsState.sort(function(a,b){
-                return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+                try {
+                    return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+                }
+                catch {
+                    return -1;
+                }
             })
         });
         if(this.state.activeRoom.id === data.message.recipient_id){
@@ -179,10 +188,22 @@ class MainPage extends React.Component {
             invites: this.state.invites.concat(data.invite)
         });
     }
-    if (data.user) {
+    if (data.user && !data.destroyed) {
         let newResults = this.state.searchResults.map((result) => {
             if(result.id === data.user.id)
                 result.invited = {status: data.accepted ? 'accepted' : 'rejected'};
+            return result
+        });
+        this.setState({
+            searchResults: newResults
+        })
+    }
+    if (data.destroyed) {
+        let newResults = this.state.searchResults.map((result) => {
+            if(result.id === data.user.id) {
+                result.invited = null;
+                result.accepted = false;
+            }
             return result
         });
         this.setState({
@@ -308,8 +329,8 @@ class MainPage extends React.Component {
           .then(() => this.removeInvite(inviteId))
   };
 
-  sendAnswer = (invite, user, accepted) => {
-      App.rooms.update_invite({invite: invite, user: user, accepted: accepted});
+  sendAnswer = (invite, user, accepted, destroyed = false) => {
+      App.rooms.update_invite({invite: invite, user: user, accepted: accepted, destroyed: destroyed});
   };
 
   inviteUser = (userId, content = 'hey! We need to talk') => {
