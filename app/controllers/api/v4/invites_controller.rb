@@ -6,6 +6,11 @@ class Api::V4::InvitesController < ApplicationController
     render json: { accepted: invite.accept, room: invite.room, user: invite.user }
   end
 
+  def reject
+    invite = Invite.find(params[:id])
+    render json: { accepted: invite.reject, room: invite.room, user: invite.user }
+  end
+
   def show
     invite = Invite.find(params[:id])
     users = invite.room.users

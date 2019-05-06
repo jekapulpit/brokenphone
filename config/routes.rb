@@ -7,7 +7,8 @@ Rails.application.routes.draw do
       resources :rooms, only: %i[show index create destroy]
       resources :messages
       resources :invites, only: %i[show accept]
-      post '/invites/:id', to: 'invites#accept'
+      post '/invites/accept/:id', to: 'invites#accept'
+      post '/invites/reject/:id', to: 'invites#reject'
       post '/invite/create', to: 'invites#create'
       get '/users/search', to: 'search#find_users'
     end

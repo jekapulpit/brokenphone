@@ -19,6 +19,7 @@ const ActiveInvite = props => {
             </div>
             <div className="send-box" >
               <button onClick={() => props.acceptInvite(props.invite.id)}>accept</button>
+              <button onClick={() => props.rejectInvite(props.invite.id)}>reject</button>
             </div>
           </div>
         </div>

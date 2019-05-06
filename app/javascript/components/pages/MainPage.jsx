@@ -32,6 +32,7 @@ class MainPage extends React.Component {
       this.handleDeleteRoom = this.handleDeleteRoom.bind(this);
       this.handleInvite = this.handleInvite.bind(this);
       this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
+      this.handleRejectInvite = this.handleRejectInvite.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.toggleSearch = this.toggleSearch.bind(this);
       this.inviteUser = this.inviteUser.bind(this);
@@ -179,7 +180,7 @@ class MainPage extends React.Component {
     if (data.user) {
         let newResults = this.state.searchResults.map((result) => {
             if(result.id === data.user.id)
-                result.accepted = data.accepted;
+                result.invited = {status: data.accepted ? 'accepted' : 'rejected'};
             return result
         });
         this.setState({
@@ -212,9 +213,8 @@ class MainPage extends React.Component {
           });
   };
 
-  sendNotice = (data, status) => {
+  sendNotice = (data, status, roomId = this.state.activeRoom.id) => {
       let content;
-      let roomId = this.state.activeRoom.id;
       switch (status) {
           case 'invited':
               content = `${this.props.user.full_name || this.props.user.email} invited ${data.invite.recipient.full_name || data.invite.recipient.email} to this chat`;
@@ -225,6 +225,9 @@ class MainPage extends React.Component {
               break;
           case 'left':
               content = `${data.user.full_name || data.user.email} left from this chat`;
+              break;
+          case 'rejected':
+              content = `${data.user.full_name || data.user.email} rejected invite`;
               break;
           default:
               content = 'ogo';
@@ -265,7 +268,7 @@ class MainPage extends React.Component {
   };
 
   handleAcceptInvite = (inviteId) => {
-      fetch(`/api/v4/invites/${inviteId}`, {
+      fetch(`/api/v4/invites/accept/${inviteId}`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -277,6 +280,27 @@ class MainPage extends React.Component {
                   this.handleRoom(data.room.id);
                   this.sendAnswer(data.invite, data.user, true);
                   this.sendNotice(data, 'joined');
+              }
+          })
+          .then(() => this.removeInvite(inviteId))
+  };
+
+  handleRejectInvite = (inviteId) => {
+      fetch(`/api/v4/invites/reject/${inviteId}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              if(!data.rejected) {
+                  this.sendAnswer(data.invite, data.user, false);
+                  this.sendNotice(data, 'rejected', data.room.id);
+                  this.setState({
+                     activeRoom:  { id: null },
+                     messages: [],
+                     users: []
+                  });
               }
           })
           .then(() => this.removeInvite(inviteId))
@@ -307,7 +331,7 @@ class MainPage extends React.Component {
   updateResults = (userId) => {
       let newResults = this.state.searchResults.map((result) => {
           if(result.id === userId)
-              result.invited = true;
+              result.invited = { status: 'sended' };
           return result
       });
       this.setState({
@@ -325,9 +349,10 @@ class MainPage extends React.Component {
   handleSearch = (request) => {
       fetch(`/api/v4/users/search/?request=${request}&room_id=${this.state.activeRoom.id}`)
           .then((response) => {return response.json()})
-              .then((data) => {this.setState({
-                  searchResults: data.results,
-              })
+              .then((data) => {
+                  this.setState({
+                      searchResults: data.results,
+                  })
           });
   };
 
@@ -356,6 +381,7 @@ class MainPage extends React.Component {
                             dia1={this.props.dia1}
                             invite={this.state.activeRoom}
                             acceptInvite={this.handleAcceptInvite}
+                            rejectInvite={this.handleRejectInvite}
                             avatar={this.props.avatar}
             />);
     }
