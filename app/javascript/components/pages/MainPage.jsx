@@ -13,7 +13,9 @@ class MainPage extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
-          rooms: props.rooms,
+          rooms: props.rooms.sort(function(a,b){
+              return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+          }),
           invites: props.invites,
           newRoom: false,
           activeRoom: { id: null },
@@ -30,6 +32,7 @@ class MainPage extends React.Component {
       this.handleDeleteRoom = this.handleDeleteRoom.bind(this);
       this.handleInvite = this.handleInvite.bind(this);
       this.handleAcceptInvite = this.handleAcceptInvite.bind(this);
+      this.handleRejectInvite = this.handleRejectInvite.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.toggleSearch = this.toggleSearch.bind(this);
       this.inviteUser = this.inviteUser.bind(this);
@@ -41,7 +44,7 @@ class MainPage extends React.Component {
             .then((response) => {return response.json()})
             .then((data) => {this.setState({
                 messages: data.messages,
-                users: data.users
+                users: data.users,
             })
         });
     }
@@ -79,6 +82,7 @@ class MainPage extends React.Component {
     }).then((response) => {return response.json()})
       .then((data)=>{
         this.deleteRoom(roomId);
+        this.sendNotice(data, 'left')
     });
   };
 
@@ -125,10 +129,13 @@ class MainPage extends React.Component {
 
   handleSend = (message) => {
     let body = JSON.stringify({
-        recipient_id: this.state.activeRoom.id,
-        recipient_type: "Room",
-        content: message,
-        sender_id: this.props.userId
+        message: {
+            recipient_id: this.state.activeRoom.id,
+            recipient_type: "Room",
+            content: message,
+            sender_id: this.props.userId,
+            sender_type: "User"
+        }
       });
     fetch('/api/v4/messages', {
         method: 'POST',
@@ -153,7 +160,9 @@ class MainPage extends React.Component {
             else return room;
         });
         this.setState({
-            rooms: newRoomsState
+            rooms: newRoomsState.sort(function(a,b){
+                return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
+            })
         });
         if(this.state.activeRoom.id === data.message.recipient_id){
             this.setState({
@@ -171,7 +180,7 @@ class MainPage extends React.Component {
     if (data.user) {
         let newResults = this.state.searchResults.map((result) => {
             if(result.id === data.user.id)
-                result.accepted = data.accepted;
+                result.invited = {status: data.accepted ? 'accepted' : 'rejected'};
             return result
         });
         this.setState({
@@ -204,6 +213,47 @@ class MainPage extends React.Component {
           });
   };
 
+  sendNotice = (data, status, roomId = this.state.activeRoom.id) => {
+      let content;
+      switch (status) {
+          case 'invited':
+              content = `${this.props.user.full_name || this.props.user.email} invited ${data.invite.recipient.full_name || data.invite.recipient.email} to this chat`;
+              break;
+          case 'joined':
+              content = `${data.user.full_name || data.user.email} joined to this chat`;
+              roomId = data.room.id;
+              break;
+          case 'left':
+              content = `${data.user.full_name || data.user.email} left from this chat`;
+              break;
+          case 'rejected':
+              content = `${data.user.full_name || data.user.email} rejected invite`;
+              break;
+          default:
+              content = 'ogo';
+      }
+      let body = JSON.stringify({
+          message: {
+              recipient_id: roomId,
+              recipient_type: "Room",
+              content: content,
+              sender_id: roomId,
+              sender_type: "Room"
+          }
+      });
+      fetch('/api/v4/messages', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: body,
+      }).then((response) => {return response.json()})
+          .then((data) => {
+              if(data.valid)
+                  this.sendMessage(data.message)
+          })
+  };
+
   handleRoom = (roomId) => {
     fetch(`/api/v4/rooms/${roomId}`)
       .then((response) => {return response.json()})
@@ -218,7 +268,7 @@ class MainPage extends React.Component {
   };
 
   handleAcceptInvite = (inviteId) => {
-      fetch(`/api/v4/invites/${inviteId}`, {
+      fetch(`/api/v4/invites/accept/${inviteId}`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -229,8 +279,28 @@ class MainPage extends React.Component {
                   this.addNewRoom(data.room);
                   this.handleRoom(data.room.id);
                   this.sendAnswer(data.invite, data.user, true);
-              } else {
-                  this.sendAcception(data.invite, data.user, false);
+                  this.sendNotice(data, 'joined');
+              }
+          })
+          .then(() => this.removeInvite(inviteId))
+  };
+
+  handleRejectInvite = (inviteId) => {
+      fetch(`/api/v4/invites/reject/${inviteId}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              if(!data.rejected) {
+                  this.sendAnswer(data.invite, data.user, false);
+                  this.sendNotice(data, 'rejected', data.room.id);
+                  this.setState({
+                     activeRoom:  { id: null },
+                     messages: [],
+                     users: []
+                  });
               }
           })
           .then(() => this.removeInvite(inviteId))
@@ -252,7 +322,8 @@ class MainPage extends React.Component {
           .then((data)=>{
               if(data.created) {
                   this.updateResults(userId);
-                  this.sendInvite(data.invite)
+                  this.sendInvite(data.invite);
+                  this.sendNotice(data, 'invited');
               }
           })
   };
@@ -260,7 +331,7 @@ class MainPage extends React.Component {
   updateResults = (userId) => {
       let newResults = this.state.searchResults.map((result) => {
           if(result.id === userId)
-              result.invited = true;
+              result.invited = { status: 'sended' };
           return result
       });
       this.setState({
@@ -278,9 +349,10 @@ class MainPage extends React.Component {
   handleSearch = (request) => {
       fetch(`/api/v4/users/search/?request=${request}&room_id=${this.state.activeRoom.id}`)
           .then((response) => {return response.json()})
-              .then((data) => {this.setState({
-                  searchResults: data.results,
-              })
+              .then((data) => {
+                  this.setState({
+                      searchResults: data.results,
+                  })
           });
   };
 
@@ -309,6 +381,7 @@ class MainPage extends React.Component {
                             dia1={this.props.dia1}
                             invite={this.state.activeRoom}
                             acceptInvite={this.handleAcceptInvite}
+                            rejectInvite={this.handleRejectInvite}
                             avatar={this.props.avatar}
             />);
     }
@@ -319,6 +392,7 @@ class MainPage extends React.Component {
                         newRoom={this.state.newRoom}
                         user={this.props.user}
                         activeId={this.state.activeRoom.id}
+                        activeType={this.state.activeRoom.type}
                         handleInvite={this.handleInvite}
                         handleRoom={this.handleRoom}
                         rooms={this.state.rooms}

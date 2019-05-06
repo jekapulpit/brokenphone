@@ -20,7 +20,7 @@ class Api::V4::RoomsController < ApplicationController
 
   def destroy
     room = Room.find(params[:id])
-    render json: { destroyed: room.room_relations.find_by(user: current_user).destroy }
+    render json: { destroyed: room.room_relations.find_by(user: current_user).destroy, user: current_user }
   end
 
   private

@@ -14,6 +14,7 @@ const Menu = props => {
                      handleNew={props.handleNew}
                      newRoom={props.newRoom}
                      activeId={props.activeId}
+                     activeType={props.activeType}
                      handleRoom={props.handleRoom}
                      rooms={props.rooms}
                      dia1={props.dia1}/>

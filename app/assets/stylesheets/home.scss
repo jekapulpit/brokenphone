@@ -81,8 +81,14 @@ html, body {
             display: block;
             padding: 2px;
             background-color: #008600;
-            color: #aaaaaa;
-            border: 1px solid #aaaaaa;
+            color: #fff;
+          }
+
+          .rejected {
+            display: block;
+            padding: 2px;
+            background-color: #B00100;
+            color: #fff;
           }
 
           .sended {

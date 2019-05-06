@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Message from "./Message";
+import Notification from "./Notification";
 class ActiveRoom extends React.Component {
 
   constructor(props) {
@@ -27,7 +28,14 @@ class ActiveRoom extends React.Component {
   render () {
     let names = this.props.allUsers.map((user) => {return user.full_name}).join(', ');
     let messages = this.props.messages.map((message) => {
-      return(<Message sender={message.senders_name} key={message.id} fromMe={message.sender_id !== this.props.userId} sended={message.sended} text={message.content} />)
+      return message.is_notification ? (
+          <Notification key={message.id} text={message.content}/>
+          ) :
+          (<Message    sender={message.senders_name}
+                       key={message.id}
+                       fromMe={message.sender_id !== this.props.userId}
+                       sended={message.sended}
+                       text={message.content} />);
     });
     return (
         <div className="talk talk-active">
@@ -38,8 +46,8 @@ class ActiveRoom extends React.Component {
               </div>
               <div className="name">
                 <div>{names}</div>
-                <button onClick={() => {this.props.handleDeleteRoom(this.props.room.id)}} className="timeout">Leave this chat</button>
-                <button onClick={() => {this.props.toggleSearch()}} className="timeout">invite more people</button>
+                <button onClick={() => {this.props.handleDeleteRoom(this.props.room.id)}} className="timeout leave">Leave this chat</button>
+                <button onClick={() => {this.props.toggleSearch()}} className="timeout invite">invite more people</button>
               </div>
             </div>
             <div id="m-list" ref={`thing`} className="messages">

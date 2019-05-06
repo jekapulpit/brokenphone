@@ -2,14 +2,25 @@ class Invite < ApplicationRecord
   belongs_to :room
   belongs_to :user
 
+  enum status: [ :sended, :accepted, :rejected ]
+
   def accept
-    unless accepted || user.in?(room.users)
+    unless status != 'sended' || user.in?(room.users)
       room.users << user
-      self.update(accepted: true)
+      self.update(status: 'accepted')
     end
   end
 
-  def with_type
-    attributes.merge({ type: 'invite' })
+  def reject
+    unless status != 'sended' || user.in?(room.users)
+      self.update(status: 'rejected')
+    end
+  end
+
+  def with_all_attributes
+    attributes.merge({
+                         type: 'invite',
+                         recipient: user
+                     })
   end
 end

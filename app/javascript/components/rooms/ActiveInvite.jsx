@@ -1,7 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Notification from "./Notification";
 const ActiveInvite = props => {
-  let names = props.allUsers.map((user) => {return user.full_name}).join(', ');
+  //let names = props.allUsers.map((user) => {return user.full_name}).join(', ');
   return (
         <div className="talk talk-active">
           <div className="message-box">
@@ -10,13 +11,16 @@ const ActiveInvite = props => {
                 <div className="name" />
               </div>
               <div className="name">
-                <div>{names}</div>
+                <div />
               </div>
             </div>
             <div id="m-list" className="messages">
-              <button onClick={() => props.acceptInvite(props.invite.id)}>accept</button>
+              <Notification text={'You was invited into this chat room!'}/>
             </div>
-            <div className="send-box" />
+            <div className="send-box" >
+              <button onClick={() => props.acceptInvite(props.invite.id)}>accept</button>
+              <button onClick={() => props.rejectInvite(props.invite.id)}>reject</button>
+            </div>
           </div>
         </div>
     );
