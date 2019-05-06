@@ -80,12 +80,13 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      address: 'smtp.gmail.com',
-      port: 587,
-      domain: 'gmail.com',
-      user_name: ENV['email_sender'],
-      password: ENV['password_sender'],
-      authentication: 'plain',
+      address:              'smtp.gmail.com',
+      port:                 587,
+      domain:               'gmail.com',
+      user_name:            ENV['email_sender'],
+      password:             ENV['password_sender'],
+      authentication:       'plain',
+      tls:                  true,
       enable_starttls_auto: true
   }
   # Use a different logger for distributed setups.
