@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Message from "./Message";
+import Notification from "./Notification";
 class ActiveRoom extends React.Component {
 
   constructor(props) {
@@ -20,23 +21,33 @@ class ActiveRoom extends React.Component {
   handleSend = (data) => {
     this.content.value = '';
     this.content.focus();
-    this.props.handleSend(data);
+    if (data.replace(/^\s+|\s+$/g, ''))
+      this.props.handleSend(data);
   };
 
   render () {
+    let names = this.props.allUsers.map((user) => {return user.full_name}).join(', ');
     let messages = this.props.messages.map((message) => {
-      return(<Message key={message.id} fromMe={message.sender_id !== this.props.userId} text={message.content} />)
+      return message.is_notification ? (
+          <Notification key={message.id} text={message.content}/>
+          ) :
+          (<Message    sender={message.senders_name}
+                       key={message.id}
+                       fromMe={message.sender_id !== this.props.userId}
+                       sended={message.sended}
+                       text={message.content} />);
     });
     return (
         <div className="talk talk-active">
           <div className="message-box">
             <div className="partner">
               <div className="image" style={{ backgroundImage: "url(" + this.props.dia1 + ")" }}>
-                <div className="name">AW</div>
+                <div className="name" />
               </div>
               <div className="name">
-                <div>Anna Wrote</div>
-                <div className="timeout">была в сети 5 минут назад</div>
+                <div>{names}</div>
+                <button onClick={() => {this.props.handleDeleteRoom(this.props.room.id)}} className="timeout leave">Leave this chat</button>
+                <button onClick={() => {this.props.toggleSearch()}} className="timeout invite">invite more people</button>
               </div>
             </div>
             <div id="m-list" ref={`thing`} className="messages">

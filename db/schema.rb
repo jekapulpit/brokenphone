@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_05_154208) do
+ActiveRecord::Schema.define(version: 2019_05_08_121719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "invites", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id"
+    t.bigint "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0
+    t.index ["room_id"], name: "index_invites_on_room_id"
+    t.index ["user_id"], name: "index_invites_on_user_id"
+  end
 
   create_table "messages", force: :cascade do |t|
     t.text "content"
@@ -22,6 +33,7 @@ ActiveRecord::Schema.define(version: 2019_04_05_154208) do
     t.integer "sender_id"
     t.integer "recipient_id"
     t.string "recipient_type"
+    t.string "sender_type"
   end
 
   create_table "room_relations", force: :cascade do |t|
@@ -30,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_04_05_154208) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "unreaded_number", default: 0
     t.index ["room_id"], name: "index_room_relations_on_room_id"
     t.index ["user_id"], name: "index_room_relations_on_user_id"
   end
@@ -38,6 +51,7 @@ ActiveRecord::Schema.define(version: 2019_04_05_154208) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "secret_key"
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,10 +66,13 @@ ActiveRecord::Schema.define(version: 2019_04_05_154208) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "full_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "invites", "rooms"
+  add_foreign_key "invites", "users"
   add_foreign_key "room_relations", "rooms"
   add_foreign_key "room_relations", "users"
 end
