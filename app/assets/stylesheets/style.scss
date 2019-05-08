@@ -116,6 +116,11 @@ body,html {
   &.active {
     background-color: #65BCFC;
   }
+
+  &.unreaded {
+    background-color: #F6CECE;
+  }
+
   &.for-invite {
     justify-content: center;
     align-items: center;

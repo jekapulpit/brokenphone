@@ -18,7 +18,7 @@ class MainPage extends React.Component {
                 return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
               }
               catch {
-                  return -1;
+                  return 1;
               }
           }),
           invites: props.invites,
@@ -133,6 +133,32 @@ class MainPage extends React.Component {
     });
   };
 
+  handleIncrementUnreaded = (roomId) => {
+      fetch(`/api/v4/rooms/unreaded/${roomId}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+      }).then((response) => {return response.json()})
+          .then((data) => {
+              if(data.incremented)
+                  this.incrementUnreaded(roomId)
+          })
+  };
+
+  incrementUnreaded = (roomId) => {
+      let newRoomsState = this.state.rooms.map((room) => {
+          if(room.id === roomId) {
+              room.unreaded_number = room.unreaded_number + 1;
+              return room;
+          }
+          else return room;
+      });
+      this.setState({
+          rooms: newRoomsState
+      })
+  };
+
   handleSend = (message) => {
     let body = JSON.stringify({
         message: {
@@ -165,22 +191,24 @@ class MainPage extends React.Component {
             }
             else return room;
         });
+        if(this.state.activeRoom.id === data.message.recipient_id){
+            this.setState({
+                messages: this.state.messages.concat(data.message)
+            });
+            this.basicScroll()
+        } else {
+            this.handleIncrementUnreaded(data.message.recipient_id)
+        }
         this.setState({
             rooms: newRoomsState.sort(function(a,b){
                 try {
                     return new Date(b.last_message.created_at) - new Date(a.last_message.created_at);
                 }
                 catch {
-                    return -1;
+                    return 1;
                 }
             })
         });
-        if(this.state.activeRoom.id === data.message.recipient_id){
-            this.setState({
-                messages: this.state.messages.concat(data.message)
-            });
-            this.basicScroll()
-        }
     }
     if (data.invite && data.invite.user_id === this.props.user.id)
     {
@@ -277,6 +305,19 @@ class MainPage extends React.Component {
           })
   };
 
+  readAll = (roomId) => {
+      let newRoomsState = this.state.rooms.map((room) => {
+          if(room.id === roomId) {
+              room.unreaded_number = 0;
+              return room;
+          }
+          else return room;
+      });
+      this.setState({
+          rooms: newRoomsState
+      })
+  };
+
   handleRoom = (roomId) => {
     fetch(`/api/v4/rooms/${roomId}`)
       .then((response) => {return response.json()})
@@ -286,7 +327,8 @@ class MainPage extends React.Component {
           users: data.users,
           searchResults: [],
         });
-        this.basicScroll()
+        this.basicScroll();
+        this.readAll(roomId)
       });
   };
 
