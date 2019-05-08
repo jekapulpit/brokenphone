@@ -1,5 +1,6 @@
-db_user: 'yauhen'
-db_password: '123456'
+db_user: 'postgres'
+db_password: 'postgres'
 email_sender: 'fcbb99mailer@gmail.com'
 password_sender: 'K0000000k'
 default_url_host: 'localhost:3000'
+secret_key_base: 'fansfk124124lndefnswkfnrwqlr4n234lkn32klnfrqlkfnklsdfnsaklfrewnr234'

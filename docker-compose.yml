@@ -76,6 +76,10 @@ services:
     links:
       - db
       - webpacker
+      - elasticsearch
+    depends_on:
+      - db
+      - elasticsearch
     ports:
       - 3000:3000
     command: ["./scripts/wait-for-it.sh", "db:5432", "--", "./scripts/start_rails.sh"]
