@@ -191,14 +191,6 @@ class MainPage extends React.Component {
             }
             else return room;
         });
-        if(this.state.activeRoom.id === data.message.recipient_id){
-            this.setState({
-                messages: this.state.messages.concat(data.message)
-            });
-            this.basicScroll()
-        } else {
-            this.handleIncrementUnreaded(data.message.recipient_id)
-        }
         this.setState({
             rooms: newRoomsState.sort(function(a,b){
                 try {
@@ -209,6 +201,14 @@ class MainPage extends React.Component {
                 }
             })
         });
+        if(this.state.activeRoom.id === data.message.recipient_id){
+            this.setState({
+                messages: this.state.messages.concat(data.message)
+            });
+            this.basicScroll()
+        } else {
+            this.handleIncrementUnreaded(data.message.recipient_id)
+        }
     }
     if (data.invite && data.invite.user_id === this.props.user.id)
     {
@@ -345,6 +345,7 @@ class MainPage extends React.Component {
                   this.handleRoom(data.room.id);
                   this.sendAnswer(data.invite, data.user, true);
                   this.sendNotice(data, 'joined');
+                  this.handleIncrementUnreaded(data.room.id)
               }
           })
           .then(() => this.removeInvite(inviteId))

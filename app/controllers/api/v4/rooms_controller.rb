@@ -29,7 +29,8 @@ class Api::V4::RoomsController < ApplicationController
 
   def increment_unreaded
     room_relation = RoomRelation.find_by(room_id: params[:id], user: current_user)
-    render json: { incremented: room_relation.update(unreaded_number: room_relation.unreaded_number + 1) }
+    room_relation.update(unreaded_number: room_relation.unreaded_number + 1) if room_relation
+    render json: { incremented: true }
   end
 
   private
