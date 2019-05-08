@@ -19,5 +19,4 @@ test:
 
 production:
   <<: *default
-  adapter: sqlite3
-  database: db/production.sqlite3
+  database: chat_prod
