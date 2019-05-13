@@ -10,6 +10,13 @@ class Api::V4::MessagesController < ApplicationController
     }
   end
 
+  def destroy
+    message = Message.find(params[:id])
+    destroyed = message.destroy
+    new_last_message = message.recipient.messages.last
+    render json: { destroyed: destroyed, message: message, new_last_message: new_last_message}
+  end
+
   private
 
   def increment_unreaded(room)

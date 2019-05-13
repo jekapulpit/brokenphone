@@ -7,6 +7,7 @@ const Message = props => {
               <div className="sender">{props.sender}</div>
               {props.text}
               <div className="sended">{props.sended}</div>
+              <button onClick={() => {props.handleDeleteMessage(props.messageId)}}>delete</button>
           </div>
         </div>
     );
