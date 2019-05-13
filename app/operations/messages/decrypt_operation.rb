@@ -10,9 +10,8 @@ module Messages
 
     def execute
       decipher.decrypt
-      decipher.key = room.secret_key
+      decipher.key = room.secret_key.split.map{|byte| byte.to_i.chr}.join
       plain = decipher.update(encrypted) + decipher.final
-      puts "---plain: #{plain}"
     end
   end
 end
