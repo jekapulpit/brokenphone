@@ -133,7 +133,7 @@ class MainPage extends React.Component {
     });
   };
 
-  handleIncrementUnreaded = (roomId) => {
+  handleReadAll = (roomId) => {
       fetch(`/api/v4/rooms/unreaded/${roomId}`, {
           method: 'POST',
           headers: {
@@ -141,22 +141,9 @@ class MainPage extends React.Component {
           },
       }).then((response) => {return response.json()})
           .then((data) => {
-              if(data.incremented)
-                  this.incrementUnreaded(roomId)
+              if(data.readed)
+                  this.readAll(roomId)
           })
-  };
-
-  incrementUnreaded = (roomId) => {
-      let newRoomsState = this.state.rooms.map((room) => {
-          if(room.id === roomId) {
-              room.unreaded_number = room.unreaded_number + 1;
-              return room;
-          }
-          else return room;
-      });
-      this.setState({
-          rooms: newRoomsState
-      })
   };
 
   handleSend = (message) => {
@@ -191,6 +178,7 @@ class MainPage extends React.Component {
             }
             else return room;
         });
+
         this.setState({
             rooms: newRoomsState.sort(function(a,b){
                 try {
@@ -205,10 +193,11 @@ class MainPage extends React.Component {
             this.setState({
                 messages: this.state.messages.concat(data.message)
             });
-            this.basicScroll()
-        } else {
-            this.handleIncrementUnreaded(data.message.recipient_id)
+            this.basicScroll();
+            this.handleReadAll(data.message.recipient_id)
         }
+        else
+            this.incrementUnreaded(data.message.recipient_id);
     }
     if (data.invite && data.invite.user_id === this.props.user.id)
     {
@@ -305,6 +294,19 @@ class MainPage extends React.Component {
           })
   };
 
+  incrementUnreaded = (roomId) => {
+      let newRoomsState = this.state.rooms.map((room) => {
+          if(room.id === roomId) {
+              room.unreaded_number = room.unreaded_number + 1;
+              return room;
+          }
+          else return room;
+      });
+      this.setState({
+          rooms: newRoomsState
+      })
+  };
+
   readAll = (roomId) => {
       let newRoomsState = this.state.rooms.map((room) => {
           if(room.id === roomId) {
@@ -328,7 +330,7 @@ class MainPage extends React.Component {
           searchResults: [],
         });
         this.basicScroll();
-        this.readAll(roomId)
+        this.handleReadAll(roomId)
       });
   };
 
@@ -345,7 +347,6 @@ class MainPage extends React.Component {
                   this.handleRoom(data.room.id);
                   this.sendAnswer(data.invite, data.user, true);
                   this.sendNotice(data, 'joined');
-                  this.handleIncrementUnreaded(data.room.id)
               }
           })
           .then(() => this.removeInvite(inviteId))
