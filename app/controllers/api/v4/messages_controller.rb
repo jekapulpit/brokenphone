@@ -2,12 +2,20 @@ class Api::V4::MessagesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    message = Message.new(message_params)
+    message = Message.new(message_params_secure)
+    puts message.inspect
     increment_unreaded(message.recipient)
     render json: {
         valid: message.save,
         message: message.with_senders_name
     }
+  end
+
+  def destroy
+    message = Message.find(params[:id])
+    destroyed = message.destroy
+    new_last_message = message.recipient.messages.last
+    render json: { destroyed: destroyed, message: message, new_last_message: new_last_message.with_senders_name}
   end
 
   private
@@ -19,5 +27,11 @@ class Api::V4::MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content, :sender_id, :recipient_id, :recipient_type, :sender_type)
+  end
+
+  def message_params_secure
+    parameters = message_params
+    parameters[:content] = Messages::EncryptOperation.new(parameters[:content], Room.find(parameters[:recipient_id])).execute
+    parameters
   end
 end
