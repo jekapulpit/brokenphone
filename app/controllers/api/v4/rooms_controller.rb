@@ -3,7 +3,8 @@ class Api::V4::RoomsController < ApplicationController
 
   def show
     room = Room.includes(:messages, :users).find(params[:id])
-    render json: {room: room.with_last_message(current_user), messages: room.messages.map(&:with_senders_name), users: room.users}
+    messages = room.messages.any? ? room.messages.map(&:with_senders_name) : []
+    render json: {room: room.with_last_message(current_user), messages: messages, users: room.users}
   end
 
   def index
