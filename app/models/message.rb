@@ -5,6 +5,7 @@ class Message < ApplicationRecord
   def with_senders_name
     attributes
         .merge(
+            decrypted_content: Messages::DecryptOperation.new(content, recipient).execute,
             senders_name: (self.notification? ? nil : sender.full_name),
             sended: created_at.strftime("%d/%m/%Y %H:%M"),
             is_notification: self.notification?

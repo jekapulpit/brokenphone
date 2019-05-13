@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 const Room = props => {
 
-    let lastMessage = props.room.last_message ? props.room.last_message.content : 'no messages';
+    let lastMessage = props.room.last_message ? props.room.last_message.decrypted_content : 'no messages';
     lastMessage = lastMessage.length > 20 ? lastMessage.substr(0, 20) + "..." : lastMessage;
     let unreaded = props.room.unreaded_number ? `+${props.room.unreaded_number}` : null;
     let dialogClassName = "dialog" + (props.active ? " active" : "") + (props.room.unreaded_number ? " unreaded" : "");
