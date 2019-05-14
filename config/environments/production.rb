@@ -85,6 +85,7 @@ Rails.application.configure do
       user_name:            ENV['email_sender'],
       password:             ENV['password_sender'],
       authentication:       'plain',
+      tls:                  true,
       enable_starttls_auto: true
   }
   # Use a different logger for distributed setups.
