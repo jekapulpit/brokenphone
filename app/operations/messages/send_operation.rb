@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messages
   class SendOperation
     attr_reader :message, :room
@@ -13,6 +15,5 @@ module Messages
     def execute
       message.save
     end
-
   end
 end

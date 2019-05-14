@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -59,7 +61,7 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { :host => ENV['default_url_host'] }
+  config.action_mailer.default_url_options = { host: ENV['default_url_host'] }
   # Suppress logger output for asset requests.
   config.assets.quiet = true
   config.action_mailer.perform_deliveries = true

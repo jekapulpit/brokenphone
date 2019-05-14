@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messages
   class EncryptOperation
     attr_reader :message, :room, :cipher
@@ -19,7 +21,7 @@ module Messages
 
     def get_or_create_key
       if room.secret_key
-        rand_key = room.secret_key.split.map{|byte| byte.to_i.chr}.join
+        rand_key = room.secret_key.split.map { |byte| byte.to_i.chr }.join
       else
         rand_key = cipher.random_key
         room.update(secret_key: rand_key.bytes.join(' '))

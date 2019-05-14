@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V4::InvitesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -20,7 +22,7 @@ class Api::V4::InvitesController < ApplicationController
   def create
     invite = Invite.new
     invite.attributes = invite_params
-    render json: {created: invite.save, invite: invite.with_all_attributes}
+    render json: { created: invite.save, invite: invite.with_all_attributes }
   end
 
   def index
