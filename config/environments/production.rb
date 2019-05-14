@@ -1,6 +1,5 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
   # Code is not reloaded between requests.
   config.cache_classes = true
 
@@ -86,7 +85,6 @@ Rails.application.configure do
       user_name:            ENV['email_sender'],
       password:             ENV['password_sender'],
       authentication:       'plain',
-      tls:                  true,
       enable_starttls_auto: true
   }
   # Use a different logger for distributed setups.
