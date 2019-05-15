@@ -15,7 +15,7 @@ class Api::V4::MessagesController < ApplicationController
     message = Message.find(params[:id])
     destroyed = message.destroy
     new_last_message = message.recipient.messages.last
-    render json: { destroyed: destroyed, message: message, new_last_message: new_last_message.with_senders_name}
+    render json: { destroyed: destroyed, message: message, new_last_message: (new_last_message ? new_last_message.with_senders_name : nil) }
   end
 
   private
