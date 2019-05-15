@@ -1,10 +1,10 @@
 class Api::V4::RoomsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :read_all, only: :show
 
   def show
     room = Room.includes(:messages, :users).find(params[:id])
-    render json: {room: room.with_last_message(current_user), messages: room.messages.map(&:with_senders_name), users: room.users}
+    messages = room.messages.any? ? room.messages.map(&:with_senders_name) : []
+    render json: {room: room.with_last_message(current_user), messages: messages, users: room.users}
   end
 
   def index
@@ -27,18 +27,15 @@ class Api::V4::RoomsController < ApplicationController
     render json: { destroyed: relations.destroy, user: current_user }
   end
 
-  def increment_unreaded
+  def read_all
     room_relation = RoomRelation.find_by(room_id: params[:id], user: current_user)
-    render json: { incremented: room_relation.update(unreaded_number: room_relation.unreaded_number + 1) }
+    room_relation.update(unreaded_number: 0) if room_relation
+    render json: {readed: true}
   end
 
   private
 
   def room_params
     params.require(:room).permit(:name)
-  end
-
-  def read_all
-    RoomRelation.find_by(room_id: params[:id], user: current_user).update(unreaded_number: 0)
   end
 end

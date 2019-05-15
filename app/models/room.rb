@@ -5,9 +5,10 @@ class Room < ApplicationRecord
   has_many :invites
 
   def with_last_message(user)
+    last_message = messages.last.with_senders_name if messages.any?
     attributes
         .merge({
-                   last_message: messages.last,
+                   last_message: last_message,
                    type: 'room',
                    unreaded_number: room_relations.find_by(user: user).unreaded_number
                })

@@ -41,6 +41,7 @@ class MainPage extends React.Component {
       this.handleSearch = this.handleSearch.bind(this);
       this.toggleSearch = this.toggleSearch.bind(this);
       this.inviteUser = this.inviteUser.bind(this);
+      this.handleDeleteMessage = this.handleDeleteMessage.bind(this);
   }
 
   componentDidMount(){
@@ -100,6 +101,22 @@ class MainPage extends React.Component {
       this.handleRoom(newRooms[0].id)
   };
 
+  handleDeleteMessage = (messageId) => {
+      fetch(`/api/v4/messages/${messageId}`, {
+          method: 'DELETE',
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      }).then((response) => {return response.json()})
+          .then((data)=>{
+              this.deleteMessage({ deletedMessageId: messageId, newLastMessage: data.new_last_message, newRoomId: this.state.activeRoom.id });
+          });
+  };
+
+  deleteMessage = (data) => {
+      App.rooms.delete_message(data);
+  };
+
   addNewRoom = (room) => {
       this.setState({
           newRoom: false,
@@ -130,10 +147,14 @@ class MainPage extends React.Component {
         update_invite: function (data) {
             return this.perform('update_invite', data)
         },
+
+        delete_message: function (data) {
+            return this.perform('delete_message', data)
+        },
     });
   };
 
-  handleIncrementUnreaded = (roomId) => {
+  handleReadAll = (roomId) => {
       fetch(`/api/v4/rooms/unreaded/${roomId}`, {
           method: 'POST',
           headers: {
@@ -141,22 +162,9 @@ class MainPage extends React.Component {
           },
       }).then((response) => {return response.json()})
           .then((data) => {
-              if(data.incremented)
-                  this.incrementUnreaded(roomId)
+              if(data.readed)
+                  this.readAll(roomId)
           })
-  };
-
-  incrementUnreaded = (roomId) => {
-      let newRoomsState = this.state.rooms.map((room) => {
-          if(room.id === roomId) {
-              room.unreaded_number = room.unreaded_number + 1;
-              return room;
-          }
-          else return room;
-      });
-      this.setState({
-          rooms: newRoomsState
-      })
   };
 
   handleSend = (message) => {
@@ -191,14 +199,7 @@ class MainPage extends React.Component {
             }
             else return room;
         });
-        if(this.state.activeRoom.id === data.message.recipient_id){
-            this.setState({
-                messages: this.state.messages.concat(data.message)
-            });
-            this.basicScroll()
-        } else {
-            this.handleIncrementUnreaded(data.message.recipient_id)
-        }
+
         this.setState({
             rooms: newRoomsState.sort(function(a,b){
                 try {
@@ -209,9 +210,17 @@ class MainPage extends React.Component {
                 }
             })
         });
+        if(this.state.activeRoom.id === data.message.recipient_id){
+            this.setState({
+                messages: this.state.messages.concat(data.message)
+            });
+            this.basicScroll();
+            this.handleReadAll(data.message.recipient_id)
+        }
+        else
+            this.incrementUnreaded(data.message.recipient_id);
     }
-    if (data.invite && data.invite.user_id === this.props.user.id)
-    {
+    if (data.invite && data.invite.user_id === this.props.user.id) {
         this.setState({
             invites: this.state.invites.concat(data.invite)
         });
@@ -237,6 +246,20 @@ class MainPage extends React.Component {
         this.setState({
             searchResults: newResults
         })
+    }
+    if (data.deletedMessageId) {
+        let newMessages = this.state.messages.filter((message) => message.id !== data.deletedMessageId );
+        let newRoomsState = this.state.rooms.map((room) => {
+            if(room.id === data.newRoomId) {
+                room.last_message = data.newLastMessage;
+                return room;
+            }
+            else return room;
+        });
+        this.setState({
+            messages: newMessages,
+            rooms: newRoomsState
+        });
     }
   };
 
@@ -305,6 +328,19 @@ class MainPage extends React.Component {
           })
   };
 
+  incrementUnreaded = (roomId) => {
+      let newRoomsState = this.state.rooms.map((room) => {
+          if(room.id === roomId) {
+              room.unreaded_number = room.unreaded_number + 1;
+              return room;
+          }
+          else return room;
+      });
+      this.setState({
+          rooms: newRoomsState
+      })
+  };
+
   readAll = (roomId) => {
       let newRoomsState = this.state.rooms.map((room) => {
           if(room.id === roomId) {
@@ -328,7 +364,7 @@ class MainPage extends React.Component {
           searchResults: [],
         });
         this.basicScroll();
-        this.readAll(roomId)
+        this.handleReadAll(roomId)
       });
   };
 
@@ -433,6 +469,7 @@ class MainPage extends React.Component {
         activeItem = this.state.activeRoom.type === 'room' ?
             (<ActiveRoom    handleSend={this.handleSend}
                             handleDeleteRoom={this.handleDeleteRoom}
+                            handleDeleteMessage={this.handleDeleteMessage}
                             userId={this.props.userId}
                             toggleSearch={this.toggleSearch}
                             messages={this.state.messages}
