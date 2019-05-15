@@ -3,7 +3,6 @@ class Api::V4::MessagesController < ApplicationController
 
   def create
     message = Message.new(message_params_secure)
-    puts message.inspect
     increment_unreaded(message.recipient)
     render json: {
         valid: message.save,

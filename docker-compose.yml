@@ -12,11 +12,17 @@ services:
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
       - xpack.security.enabled=false
       - xpack.monitoring.enabled=false
       - xpack.graph.enabled=false
       - xpack.watcher.enabled=false
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 50M
     ulimits:
       memlock:
         soft: -1
@@ -55,18 +61,6 @@ services:
     ports:
       - 3035:3035
 
-  cable:
-    depends_on:
-      - 'redis'
-    build: .
-    command: puma -p 28080 cable/config.ru
-    ports:
-      - '28080:28080'
-    volumes:
-      - '.:/app'
-    env_file:
-      - '.env'
-
   web:
     image: ${DOCKER_IMAGE_NAME-dockerrailsdemo}
     build:
@@ -75,11 +69,11 @@ services:
         precompileassets: 'not'
     links:
       - db
+      - elasticsearch
       - webpacker
-      - elasticsearch
     depends_on:
-      - db
       - elasticsearch
+      - db
     ports:
       - 3000:3000
     command: ["./scripts/wait-for-it.sh", "db:5432", "--", "./scripts/start_rails.sh"]
