@@ -2,5 +2,7 @@
 
 FactoryGirl.define do
   factory :room_relation do
+    user
+    room
   end
 end

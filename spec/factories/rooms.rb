@@ -11,7 +11,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |room, evaluator|
-        create_list(:user_with_messages, evaluator.users_count, room: room)
+        create_list(:user_with_messages, evaluator.users_count, send_for: room)
       end
     end
   end

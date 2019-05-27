@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :user do
     sequence(:email) { |n| "person#{n}@example.com" }
     full_name 'zheka'
+    password '123456'
 
     factory :user_with_messages do
       transient do
@@ -11,6 +12,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |user, evaluator|
+        create(:room_relation, user: user, room: evaluator.send_for)
         create_list(:message, evaluator.messages_count, sender: user, recipient: evaluator.send_for)
       end
     end
