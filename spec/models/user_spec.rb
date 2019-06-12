@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:room) {  FactoryGirl.create(:filled_room, users_count: 1)  }
-  let(:creator) {  room.users.first  }
+  let(:room) { FactoryGirl.create(:filled_room, users_count: 1) }
+  let(:creator) { room.users.first }
   let(:outsider) { FactoryGirl.create(:user) }
 
   describe 'user#with_invited' do
@@ -39,8 +39,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-
-
-
-  end
+end
