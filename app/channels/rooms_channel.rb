@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RoomsChannel < ApplicationCable::Channel
   def subscribed
     @room = 'all_rooms'

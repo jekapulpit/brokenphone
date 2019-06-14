@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V4::MessagesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -6,8 +8,8 @@ class Api::V4::MessagesController < ApplicationController
     puts message.inspect
     increment_unreaded(message.recipient)
     render json: {
-        valid: message.save,
-        message: message.with_senders_name
+      valid: message.save,
+      message: message.with_senders_name
     }
   end
 
