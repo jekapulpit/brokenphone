@@ -131,7 +131,7 @@ class MainPage extends React.Component {
         },
 
         disconnected: function() {
-                   // Called when the subscription has been terminated by the server
+
         },
 
         received: recv,
